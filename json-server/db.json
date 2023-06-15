@@ -1,0 +1,140 @@
+{
+  "authors": [
+    {
+      "name": "David Roberts",
+      "created_at": "2023-06-07T16:27:33.163Z",
+      "id": 1,
+      "updated_at": "2023-06-15T04:19:34.836Z"
+    },
+    {
+      "name": "Emily Thompson",
+      "created_at": "2023-06-07T16:29:58.331Z",
+      "id": 2,
+      "updated_at": "2023-06-15T06:43:24.884Z"
+    },
+    {
+      "name": "Sarah Johnson",
+      "created_at": "2023-06-07T16:30:15.653Z",
+      "updated_at": "2023-06-14T16:19:14.723Z",
+      "id": 3
+    },
+    {
+      "name": "Michael Davis",
+      "created_at": "2023-06-07T16:30:29.188Z",
+      "updated_at": "2023-06-10T20:07:07.398Z",
+      "id": 4
+    },
+    {
+      "name": "Jennifer Lee",
+      "created_at": "2023-06-07T16:30:41.704Z",
+      "updated_at": "2023-06-08T09:50:53.407Z",
+      "id": 5
+    },
+    {
+      "name": "Daniel Smith",
+      "created_at": "2023-06-07T16:30:55.350Z",
+      "updated_at": "2023-06-14T03:47:28.985Z",
+      "id": 6
+    },
+    {
+      "name": "Sarah Thompson",
+      "created_at": "2023-06-07T16:27:33.163Z",
+      "updated_at": "2023-06-14T15:05:10.825Z",
+      "id": 7
+    },
+    {
+      "name": "David Williams",
+      "created_at": "2023-06-07T16:27:33.163Z",
+      "updated_at": "2023-06-12T12:49:42.740Z",
+      "id": 8
+    },
+    {
+      "name": "Laura Johnson",
+      "created_at": "2023-06-10T20:07:33.491Z",
+      "updated_at": "2023-06-14T16:21:14.587Z",
+      "id": 9
+    }
+  ],
+  "articles": [
+    {
+      "title": "The Importance of Work-Life Balance",
+      "authorId": 9,
+      "content": "Maintaining a healthy work-life balance is essential for overall well-being and satisfaction. Laura Johnson's article explores the impact of work-life balance on physical and mental health, relationships, and productivity. Learn strategies to achieve a harmonious balance between work and personal life.",
+      "created_at": "2023-06-11T21:16:08.514Z",
+      "updated_at": "2023-06-14T15:29:00.547Z",
+      "id": 16
+    },
+    {
+      "title": "The Benefits of Outdoor Activities for Children",
+      "authorId": 7,
+      "content": "Engaging in outdoor activities has numerous benefits for children's physical and mental development. Sarah Thompson's article highlights the advantages of outdoor play, such as improved physical fitness, cognitive skills, and social interaction. Discover the importance of letting children connect with nature and engage in outdoor adventures.",
+      "created_at": "2023-06-11T22:51:34.740Z",
+      "updated_at": "2023-06-11T22:51:34.740Z",
+      "id": 17
+    },
+    {
+      "title": "The Art of Problem-Solving",
+      "authorId": 8,
+      "content": "Effective problem-solving skills are valuable in both personal and professional contexts. David Williams' article explores different problem-solving techniques and strategies, including critical thinking, creativity, and collaboration. Learn how to approach problems with confidence and find innovative solutions.",
+      "created_at": "2023-06-11T00:17:00.852Z",
+      "updated_at": "2023-06-11T00:17:00.852Z",
+      "id": 18
+    },
+    {
+      "title": " Climate Change on Biodiversity",
+      "authorId": 2,
+      "content": "Climate change poses a significant threat to global biodiversity. Emily Thompson's article examines the impact of climate change on ecosystems, species extinction, and habitat loss. Explore the urgent need for conservation efforts and sustainable practices to mitigate the effects of climate change on the planet's rich biodiversity.",
+      "created_at": "2023-06-11T03:27:48.685Z",
+      "updated_at": "2023-06-11T03:27:48.685Z",
+      "id": 20
+    },
+    {
+      "title": "The Time Management",
+      "authorId": 7,
+      "content": "Effective time management is essential for maximizing productivity and reducing stress. Sarah Thompson's article provides valuable insights into various time management techniques and tips for prioritizing tasks, setting goals, and achieving work-life balance.",
+      "created_at": "2023-06-11T09:15:27.462Z",
+      "updated_at": "2023-06-12T12:49:42.740Z",
+      "id": 25
+    },
+    {
+      "title": "Mindful Eating",
+      "authorId": 1,
+      "content": "Mindful eating is a practice that involves paying attention to the present moment and savoring each bite. In this article, David Roberts highlights the benefits of mindful eating, such as improved digestion, enhanced enjoyment of food, and better awareness of hunger and fullness cues. Learn how to cultivate a healthier relationship with food through mindful eating.",
+      "created_at": "2023-06-11T11:45:52.724Z",
+      "updated_at": "2023-06-11T11:45:52.724Z",
+      "id": 14
+    },
+    {
+      "title": " Mental Health",
+      "authorId": 2,
+      "content": "Social media has become an integral part of our lives, but it also has potential negative effects on mental health. In this article, Emily Thompson explores the impact of social media on mental well-being, including issues like comparison, cyberbullying, and addictive behaviors. Discover strategies to maintain a healthy balance and use social media mindfully.",
+      "created_at": "2023-06-11T13:20:14.932Z",
+      "updated_at": "2023-06-12T07:37:36.155Z",
+      "id": 19
+    },
+    {
+      "title": "The Renewable Energy",
+      "authorId": 6,
+      "content": "Renewable energy sources are gaining prominence as the world seeks sustainable alternatives to fossil fuels. ",
+      "created_at": "2023-06-11T19:40:47.958Z",
+      "updated_at": "2023-06-14T03:47:28.985Z",
+      "id": 155
+    },
+    {
+      "title": "Work-Life Balance",
+      "authorId": 9,
+      "content": "Maintaining a healthy work-life balance is essential for overall well-being and satisfaction. ",
+      "created_at": "2023-06-11T21:16:08.514Z",
+      "updated_at": "2023-06-14T16:21:14.554Z",
+      "id": 161
+    },
+    {
+      "title": "The Benefits of Outdoor Activities",
+      "authorId": 7,
+      "content": "true Engaging in outdoor activities has numerous benefits for children's physical and mental development. ",
+      "created_at": "2023-06-11T22:51:34.740Z",
+      "updated_at": "2023-06-14T15:05:10.791Z",
+      "id": 171
+    }
+  ]
+}
