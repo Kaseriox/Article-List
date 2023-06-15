@@ -1,8 +1,8 @@
 <template>
     <div>
-        <button @click="PreviousPage" :disabled="this.$store.state.CurrentPage == 1">Previous Page</button>
+        <button @click="PreviousPage" :disabled="this.$store.state.CurrentPage <= 1 || this.$store.state.CurrentPage > TotalPages">Previous Page</button>
         <h2>{{ this.$store.state.CurrentPage}}</h2>
-        <button @click="NextPage" :disabled="this.$store.state.CurrentPage== TotalPages">Next Page</button>
+        <button @click="NextPage" :disabled="this.$store.state.CurrentPage >= TotalPages">Next Page</button>
     </div>
 </template>
   
@@ -19,11 +19,13 @@ export default {
         PreviousPage()
         {
             this.$store.dispatch('previous_page')
+            this.$router.push(`/page/${this.$store.state.CurrentPage}`)
             this.$emit('ForceRerender')
         },
         NextPage()
         {
             this.$store.dispatch('next_page')
+            this.$router.push(`/page/${this.$store.state.CurrentPage}`)
             this.$emit('ForceRerender')
         },
     },

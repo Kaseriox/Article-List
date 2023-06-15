@@ -59,13 +59,17 @@ import {bus} from '../../main'
 			if(this.ValidateForm() === true)
 			{
 				let response = await this.$CreateArticle(this.FormInput)
-				console.log(response)
 				if(response.statusText === 'Created')
 				{
 					response = await this.$UpdateAuthor(this.FormInput.authorId)
 					if(response.statusText==='OK')
 					{
 						bus.$emit('Notification','Succesfully Created Article')
+						this.FormInput={
+							title:'',
+							authorId:undefined,
+							content:''
+						}
 						this.Close()
 					}
 					else

@@ -5,15 +5,15 @@
             <h2>{{ ArticleData.author }}</h2>
             <h3>{{ ArticleData.date }}</h3>
         </div>
-    <DeleteArticleButton :id="ArticleData.id"></DeleteArticleButton>
+    <FormButton :type="'Delete'" :id="ArticleData.id"></FormButton>
     <FormButton :type="'Edit'" :id="ArticleData.id" ></FormButton>
     </div>
 </template>
   
 <script>
-import DeleteArticleButton from '../Buttons/DeleteArticleButton.vue';
-import FormButton from '../Buttons/FormButton.vue';
 
+import FormButton from '../Buttons/FormButton.vue';
+import {bus} from '../../main'
 export default {
     name: "ArticleCard",
     props:{
@@ -24,16 +24,29 @@ export default {
         }
     },
     components: {
-    DeleteArticleButton,
-    FormButton
+        FormButton
 },
     data() {
         return {
         };
     },
+    methods:
+    {
+        Refresh()
+        {
+            this.$emit('Refresh')
+        }
+    },
     created()
     {
         this.ArticleData.date = new Date(this.ArticleData.date).toLocaleString()
+        bus.$on('Notification',(data)=>
+        {
+            if(data==='Succesfully Deleted Article')
+            {
+                this.Refresh()
+            }
+        })
     }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <Search v-on:ForceRerender="ForceRerender" ></Search>
-        <ArticlesSection :key="ComponentKey"></ArticlesSection>
+        <ArticlesSection :key="ComponentKey" v-on:ForceRerender="ForceRerender"></ArticlesSection>
         <Paging v-on:ForceRerender="ForceRerender"></Paging>
         <FormButton :type="'Create'"></FormButton>
     </div>
@@ -13,7 +13,7 @@ import Paging from '../components/Articles/Paging.vue';
 import FormButton from '../components/Buttons/FormButton.vue';
 import DynamicForm from '../components/Form/DynamicForm.vue';
 import Search from '../components/Search/Search.vue';
-
+import {bus} from '../main'
 
 
 export default {
@@ -35,6 +35,13 @@ export default {
     created()
     {
         this.$store.dispatch('set_page',this.CurrentPage)
+        bus.$on('Notification',(data)=>
+        {
+            if(data==='Succesfully Created Article' || data==='Succesfully Edited Article')
+            {
+                this.ForceRerender()
+            }
+        })
     }
 };
 </script>

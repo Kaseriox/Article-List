@@ -1,6 +1,6 @@
 <template>
   <div v-if="Article">
-    <ArticleDetails :Article="ArticleProp()"></ArticleDetails>
+    <ArticleDetails :Article="ArticleProp()" ></ArticleDetails>
   </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
     return {
       id: this.$route.params.id,
       Article: undefined,
+      ComponentKey:0
     };
   },
   methods: {
@@ -49,6 +50,14 @@ export default {
   },
   created() {
     this.GetArticle()
+    bus.$on('Notification',(data)=>
+    {
+      if(data==='Succesfully Edited Article')
+      {
+        this.GetArticle()
+      }
+    })
+    
   },
 };
 </script>
