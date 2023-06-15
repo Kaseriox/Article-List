@@ -2,39 +2,38 @@
     <div>
         <label>
             Search: 
-            <input v-model="SearchQuery">
+            <input  @input="DebounceTest">
         </label>
-        <button @click="Search" >Search</button>
-        <button @click="Reset" v-if="this.$store.state.SearchQuery">Reset</button>
     </div>
 </template>
   
 <script>
+import debounce from 'debounce';
+
 export default {
     name: "Search",
     components: {
     },
     data() {
         return {
-            SearchQuery:undefined
         };
     },
     methods:{
-        Search()
+        Search(value)
         {
-            this.$store.dispatch('search',this.SearchQuery)
-            this.ForceRerender()
-        },
-        Reset()
-        {
-            this.$store.dispatch('reset_search')
-            this.SearchQuery = undefined
+            this.$store.dispatch('search',value)
+            this.$router.push('/page/1')
             this.ForceRerender()
         },
         ForceRerender()
         {
             this.$emit('ForceRerender')
-        }
+        },
+        DebounceTest:debounce(function(e)
+        {
+            console.log(e.target.value)
+            this.Search(e.target.value)
+        },400)
     }
 };
 </script>

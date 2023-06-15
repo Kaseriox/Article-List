@@ -10,7 +10,7 @@
       "name": "Emily Thompson",
       "created_at": "2023-06-07T16:29:58.331Z",
       "id": 2,
-      "updated_at": "2023-06-15T06:43:24.884Z"
+      "updated_at": "2023-06-15T10:36:17.175Z"
     },
     {
       "name": "Sarah Johnson",
@@ -135,6 +135,14 @@
       "created_at": "2023-06-11T22:51:34.740Z",
       "updated_at": "2023-06-14T15:05:10.791Z",
       "id": 171
+    },
+    {
+      "title": "testttt",
+      "authorId": 1,
+      "content": "tteseaesaesa",
+      "created_at": "2023-06-15T04:19:34.804Z",
+      "updated_at": "2023-06-15T04:19:34.804Z",
+      "id": 172
     }
   ]
 }

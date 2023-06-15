@@ -53,24 +53,46 @@ import {bus} from '../../main'
 		},
 		async HandleForm()
 		{
-			let response = await this.$UpdateArticle(this.id,{title:this.ArticleData.title,content:this.ArticleData.content})
-			if(response.statusText==='OK')
+			if(this.ValidateForm() ===true)
 			{
-				response = await this.$UpdateAuthor(this.ArticleData.authorId)
+				let response = await this.$UpdateArticle(this.id,{title:this.ArticleData.title,content:this.ArticleData.content})
 				if(response.statusText==='OK')
 				{
-					bus.$emit('Notification','Succesfully Edited Article')
-					this.Close()
+					response = await this.$UpdateAuthor(this.ArticleData.authorId)
+					if(response.statusText==='OK')
+					{
+						bus.$emit('Notification','Succesfully Edited Article')
+						this.Close()
+					}
+					else
+					{
+						bus.$emit('Notification','Failed To Update Author')
+					}
 				}
 				else
 				{
-					bus.$emit('Notification','Failed To Update Author')
-				}
+					bus.$emit('Notification','Failed To Edit Article')
+				}	
 			}
-			else
+		},
+		ValidateForm()
+		{
+			if (this.ArticleData.title.length < 2)
 			{
-				bus.$emit('Notification','Failed To Edit Article')
-			}
+        		bus.$emit('Notification','Form Title Too Short')
+        		return false;
+      		}
+      		if (this.ArticleData.authorId === undefined)
+			{
+        		bus.$emit('Notification','Author Not Selected')
+        		return false;
+      		}
+      		if (this.ArticleData.content.length < 2)
+			{
+        		bus.$emit('Notification','Form Content Too Short')
+        		return false;
+      		}
+      		return true
 		},
 		Close()
 		{

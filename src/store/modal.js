@@ -6,9 +6,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state:{
         Open:[],
-        SearchQuery:undefined,
+        SearchQuery:'',
         CurrentPage:1,
-        ArticleCount:0
+        ArticleCount:1
         },
     getters:{
         
@@ -28,10 +28,6 @@ export default new Vuex.Store({
         {
             state.SearchQuery = payload
         },
-        RESET_SEARCH:(state)=>
-        {
-            state.SearchQuery = undefined
-        },
         SET_PAGE:(state,payload)=>
         {
             state.CurrentPage = payload
@@ -46,7 +42,11 @@ export default new Vuex.Store({
         },
         PREVIOUS_PAGE:(state)=>
         {
-            state.CurrentPage = parseInt(state.CurrentPage) - parseInt(1)
+            if(state.CurrentPage != 1)
+            {
+                state.CurrentPage = parseInt(state.CurrentPage) - parseInt(1) 
+            }
+            
         },
         SET_ARTICLE_COUNT:(state,payload)=>
         {
@@ -64,10 +64,6 @@ export default new Vuex.Store({
         {
             context.commit('RESET_PAGE')
             context.commit('SEARCH',payload)
-        },
-        reset_search:(context)=>
-        {
-            context.commit('RESET_SEARCH')
         },
         set_page:(context,payload)=>
         {

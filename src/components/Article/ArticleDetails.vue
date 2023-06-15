@@ -6,16 +6,16 @@
             <p>{{ Article.content }}</p>
             <h3>{{ Article.date }} </h3>
         </div>
-        <DeleteArticleButton :id="Article.id"></DeleteArticleButton>
+        <FormButton :type="'Delete'" :id="Article.id"></FormButton>
         <FormButton :type="'Edit'" :id="Article.id"></FormButton>
     </div>
 </template>
   
 <script>
-import DeleteArticleButton from '../Buttons/DeleteArticleButton.vue';
+
 import FormButton from '../Buttons/FormButton.vue';
 import DynamicForm from '../Form/DynamicForm.vue';
-
+import {bus} from '../../main'
 
 export default {
     name: "ArticleDetails",
@@ -26,7 +26,6 @@ export default {
         }
     },
     components: {
-    DeleteArticleButton,
     DynamicForm,
     FormButton
 },
@@ -35,7 +34,20 @@ export default {
         };
     },
     methods:{
-        
+        PushToMainPage()
+        {
+            this.$router.push('/page/1')
+        },
     },
+    created()
+    {
+        bus.$on('Notification',(data)=>
+        {
+            if(data==='Succesfully Deleted Article')
+            {
+                this.PushToMainPage()
+            }
+        })
+    }
 };
 </script>
