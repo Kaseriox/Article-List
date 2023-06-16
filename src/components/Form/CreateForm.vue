@@ -1,24 +1,41 @@
 <template>
 	<ModalWindow :name="'Create'">
-		<div v-if="Authors" class="Form-Box">
-			<label>
-				Title: <input v-model="FormInput.title">
-			</label>
+		<div v-if="Authors" class="modal-card" style="width:auto">
+			<header class="modal-card-head">
+				<p class="modal-card-title>">Create Form</p>
+				
+			</header>
+			<section class="modal-card-body">
+				<b-field label="Title">
+					<b-input
+					type="text"
+					v-model="FormInput.title"
+					placeholder="Your Title"
+					/>
+				</b-field>
+				<b-field>
+					<b-select placeholder="Author" icon="account" v-model="FormInput.authorId">
+  						<option v-for="Author in Authors" :value="Author.id">
+							{{ Author.name }}
+  						</option>
+					</b-select>
+				</b-field>
 
-			<label>
-				Author
-				<select v-model="FormInput.authorId">
-  					<option v-for="Author in Authors" :value="Author.id">
-						{{ Author.name }}
-  					</option>
-				</select>
-			</label>
-		
-			<label>
-				Content: <textarea v-model="FormInput.content"></textarea>
-			</label>
+				<b-field label="Content">
+           			 <b-input type="textarea" v-model="FormInput.content"></b-input>
+       			</b-field>
+			</section>
 
-			<button @click="HandleForm">Submit New Article</button>
+			<footer class="modal-card-foot">
+				<b-button
+				label="Close"
+				@click="Close" />
+				<b-button 
+				label="Create Article"
+				type="is-primary"
+				@click="HandleForm"
+				/>
+			</footer>
 	 	</div>
 	</ModalWindow>
 </template>
@@ -105,7 +122,7 @@ import {bus} from '../../main'
 		},
 		Close()
 		{
-			this.$store.dispatch('close','Create')
+			this.$store.dispatch('Modal/close')
 		}
 
 	},

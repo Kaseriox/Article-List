@@ -1,12 +1,16 @@
 <template>
-    <div class="Article-Card" v-if="ArticleData">
-        <div class="Article-Card-Info">
-            <router-link :to="'/article/' + ArticleData.id"><h1>{{ ArticleData.title }}</h1></router-link>
-            <h2>{{ ArticleData.author }}</h2>
-            <h3>{{ ArticleData.date }}</h3>
-        </div>
-    <FormButton :type="'Delete'" :id="ArticleData.id"></FormButton>
-    <FormButton :type="'Edit'" :id="ArticleData.id" ></FormButton>
+    <div class="card" v-if="ArticleData">
+            <div class="card-content">
+                <router-link :to="'/article/' + ArticleData.id"><h1 class="title ">{{ ArticleData.title }}</h1></router-link>
+                <h2 class="subtitle ">{{ ArticleData.author }}</h2>
+                <h3 class="subtitle is-6">{{ ArticleData.date }}</h3>
+            </div>
+            <footer class="card-footer">
+                <FormButton class='card-footer-item' :type="'Delete'" :id="ArticleData.id"></FormButton>
+                <FormButton  class='card-footer-item' :type="'Edit'" :id="ArticleData.id" ></FormButton>
+    
+            </footer>
+        
     </div>
 </template>
   
@@ -51,12 +55,6 @@ export default {
 };
 </script>
 <style scoped>
-.Article-Card
-{
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-}
-.Article-Card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
+
+
 </style>

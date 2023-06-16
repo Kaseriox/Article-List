@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <label>
-            Search: 
-            <input  @input="DebounceTest">
-        </label>
+    <div class="field">
+        <label class="label">Search</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="Search" @input="DebounceTest">
+        </div>
     </div>
 </template>
   
@@ -21,7 +21,7 @@ export default {
     methods:{
         Search(value)
         {
-            this.$store.dispatch('search',value)
+            this.$store.dispatch('Search/search',value)
             this.$router.push('/page/1')
             this.ForceRerender()
         },
@@ -31,9 +31,14 @@ export default {
         },
         DebounceTest:debounce(function(e)
         {
-            console.log(e.target.value)
             this.Search(e.target.value)
         },400)
     }
 };
 </script>
+<style scoped>
+    .field
+    {
+        margin: 20px;
+    }
+</style>

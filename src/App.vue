@@ -17,9 +17,9 @@ export default {
     Notification,DynamicForm
 },
   watch:{
-    '$store.state.Open':function()
+    '$store.state.Modal.Open':function()
     {
-      if(this.$store.getters.Active){
+      if(this.$store.getters['Modal/Active']){
         document.documentElement.style.overflow = 'hidden'
         return
       }

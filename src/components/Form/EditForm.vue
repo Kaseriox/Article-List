@@ -1,15 +1,34 @@
 <template>
 	<ModalWindow :name="'Edit'">
-			<div  v-if="ArticleData" class="Form-Box">
-			<label>
-				Title: <input v-model="ArticleData.title">
-			</label>
-		
-			<label>
-				Content: <textarea v-model="ArticleData.content"></textarea>
-			</label>
+		 <div v-if="ArticleData" class="modal-card" style="width:auto">
+			<header class="modal-card-head">
+				<p class="modal-card-title>">Edit Form</p>
+				
+			</header>
+			<section class="modal-card-body">
+				<b-field label="Title">
+					<b-input
+					type="text"
+					v-model="ArticleData.title"
+					placeholder="Your Title"
+					/>
+				</b-field>
 
-			<button @click="HandleForm">Edit Article</button>
+				<b-field label="Content">
+           			 <b-input type="textarea" v-model="ArticleData.content"></b-input>
+       			</b-field>
+			</section>
+
+			<footer class="modal-card-foot">
+				<b-button
+				label="Close"
+				@click="Close" />
+				<b-button 
+				label="Edit Article"
+				type="is-primary"
+				@click="HandleForm"
+				/>
+			</footer>
 	 	</div>
 	</ModalWindow>
 </template>
@@ -96,7 +115,7 @@ import {bus} from '../../main'
 		},
 		Close()
 		{
-			this.$store.dispatch('close','Edit')
+			this.$store.dispatch('Modal/close')
 		}
 	},
 	created()

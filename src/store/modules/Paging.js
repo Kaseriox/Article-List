@@ -1,37 +1,11 @@
-import Vue from "vue";
-import Vuex from "vuex"
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
+    namespaced:true,
     state:{
-        Open:[],
-        SearchQuery:'',
         CurrentPage:1,
-        ArticleCount:1
+        ArticleCount:1,
         },
-    getters:{
-        
-        AllOpen:(state) => state.Open,
-        Active:(state)=> state.Open.length > 0 ? true : false,
-
-    },
     mutations:{
-        OPEN:(state,payload)=>{
-            state.Open.unshift(payload)
-        },
-        CLOSE:(state,payload)=>
-        {
-           state.Open =  state.Open.filter((filter) => filter !== payload)
-        },
-        SEARCH:(state,payload)=>
-        {
-            state.SearchQuery = payload
-        },
-        SET_PAGE:(state,payload)=>
-        {
-            state.CurrentPage = payload
-        },
         RESET_PAGE:(state)=>
         {
             state.CurrentPage = 1
@@ -51,20 +25,13 @@ export default new Vuex.Store({
         SET_ARTICLE_COUNT:(state,payload)=>
         {
             state.ArticleCount = payload
-        }
+        },
+        SET_PAGE:(state,payload)=>
+        {
+            state.CurrentPage = payload
+        },
     },
     actions:{
-        open:(context,payload)=>{
-            context.commit('OPEN',payload)
-        },
-        close:(context,payload)=>{
-            context.commit('CLOSE',payload)
-        },
-        search:(context,payload)=>
-        {
-            context.commit('RESET_PAGE')
-            context.commit('SEARCH',payload)
-        },
         set_page:(context,payload)=>
         {
             context.commit('SET_PAGE',payload)
@@ -86,4 +53,4 @@ export default new Vuex.Store({
             context.commit('SET_ARTICLE_COUNT',payload)
         }
     }
-})
+}

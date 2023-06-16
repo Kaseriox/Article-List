@@ -4,13 +4,13 @@
       "name": "David Roberts",
       "created_at": "2023-06-07T16:27:33.163Z",
       "id": 1,
-      "updated_at": "2023-06-15T04:19:34.836Z"
+      "updated_at": "2023-06-16T09:59:53.580Z"
     },
     {
       "name": "Emily Thompson",
       "created_at": "2023-06-07T16:29:58.331Z",
       "id": 2,
-      "updated_at": "2023-06-15T10:36:17.175Z"
+      "updated_at": "2023-06-16T10:09:14.458Z"
     },
     {
       "name": "Sarah Johnson",
@@ -135,14 +135,6 @@
       "created_at": "2023-06-11T22:51:34.740Z",
       "updated_at": "2023-06-14T15:05:10.791Z",
       "id": 171
-    },
-    {
-      "title": "testttt",
-      "authorId": 1,
-      "content": "tteseaesaesa",
-      "created_at": "2023-06-15T04:19:34.804Z",
-      "updated_at": "2023-06-15T04:19:34.804Z",
-      "id": 172
     }
   ]
 }

@@ -12,6 +12,7 @@
   "dependencies": {
     "@vitejs/plugin-vue2": "^2.2.0",
     "axios": "^1.4.0",
+    "buefy": "^0.9.23",
     "debounce": "^1.2.1",
     "jsdom": "^21.1.0",
     "vite": "^4.0.4",
