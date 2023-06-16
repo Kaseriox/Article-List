@@ -1,5 +1,5 @@
 <template>
-        <button @click="HandleClick()" >{{type}}Form</button>
+        <b-button @click="HandleClick()" >{{type}}</b-button>
 </template>
 
 <script>

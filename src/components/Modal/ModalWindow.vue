@@ -1,8 +1,7 @@
 <template>
-    <div @click.self="Close" v-if="IsOpen" class="modal-overlay">
+    <div class="modal-overlay" v-if="IsOpen">
         <div class="modal-content">
-            <button @click="Close">X</button>
-            <slot :Close="Close"></slot>
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -26,13 +25,13 @@ export default {
         Close()
         {
 
-            this.$store.dispatch('close',this.name)
+            this.$store.dispatch('Modal/close')
         },
     },
     computed:{
         IsOpen()
         {
-            return this.$store.getters.AllOpen.includes(this.name)
+            return this.$store.getters['Modal/Active']
         },
     },
     beforeDestroy(){
@@ -52,15 +51,11 @@ export default {
         top: 0;
         width: 100%; 
         height: 100%; 
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: rgba(0, 0, 0, 0.2);
 	}
 	.modal-content {
 		background-color: #fff;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-		padding: 20px;
-		max-height: 80%;
-		max-width: 300px;
-		width: 100%;
 		position: fixed;
 		top: 50%;
 		left: 50%;

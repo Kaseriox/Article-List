@@ -1,10 +1,29 @@
 <template>
 	<ModalWindow :name="'Delete'">
-		<div class="Form-Box">
-            <h1>Are You Sure That You Want To Delete An Article?</h1>
-			<button @click="HandleForm('Yes')">Yes</button>
-            <button @click="HandleForm('No')">No</button>
+         <div  class="modal-card" style="width:auto">
+			<header class="modal-card-head">
+				<p class="modal-card-title>">Delete Form</p>
+				
+			</header>
+			<section class="modal-card-body">
+				<p class="title">Delete Article?</p>
+
+			
+			</section>
+
+			<footer class="modal-card-foot">
+				<b-button
+				label="Cancel"
+				@click="HandleForm('No')" />
+				<b-button 
+				label="Delete Article"
+				type="is-primary"
+				@click="HandleForm('Yes')"
+				/>
+			</footer>
 	 	</div>
+
+
 	</ModalWindow>
 </template>
 
@@ -39,7 +58,7 @@ import {bus} from '../../main'
         },
 		Close()
 		{
-			this.$store.dispatch('close','Delete')
+			this.$store.dispatch('Modal/close')
 		},
         async DeleteArticle()
         {

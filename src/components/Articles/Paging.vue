@@ -1,8 +1,7 @@
 <template>
-    <div>
-        <button @click="PreviousPage" :disabled="this.$store.state.CurrentPage <= 1 || this.$store.state.CurrentPage > TotalPages">Previous Page</button>
-        <h2>{{ this.$store.state.CurrentPage}}</h2>
-        <button @click="NextPage" :disabled="this.$store.state.CurrentPage >= TotalPages">Next Page</button>
+    <div class="buttons">
+        <b-button @click="PreviousPage" :disabled="this.$store.state.Paging.CurrentPage <= 1 || this.$store.state.Paging.CurrentPage > TotalPages">Previous Page</b-button>
+        <b-button @click="NextPage" :disabled="this.$store.state.Paging.CurrentPage >= TotalPages">Next Page</b-button>
     </div>
 </template>
   
@@ -18,21 +17,21 @@ export default {
     methods:{
         PreviousPage()
         {
-            this.$store.dispatch('previous_page')
-            this.$router.push(`/page/${this.$store.state.CurrentPage}`)
+            this.$store.dispatch('Paging/previous_page')
+            this.$router.push(`/page/${this.$store.state.Paging.CurrentPage}`)
             this.$emit('ForceRerender')
         },
         NextPage()
         {
-            this.$store.dispatch('next_page')
-            this.$router.push(`/page/${this.$store.state.CurrentPage}`)
+            this.$store.dispatch('Paging/next_page')
+            this.$router.push(`/page/${this.$store.state.Paging.CurrentPage}`)
             this.$emit('ForceRerender')
         },
     },
     computed:{
         TotalPages()
         {
-            return Math.ceil(this.$store.state.ArticleCount / 10);
+            return Math.ceil(this.$store.state.Paging.ArticleCount / 12);
         }
     },
 };

@@ -1,10 +1,25 @@
 <template>
     <div>
-        <Search v-on:ForceRerender="ForceRerender" ></Search>
-        <ArticlesSection :key="ComponentKey" v-on:ForceRerender="ForceRerender"></ArticlesSection>
-        <Paging v-on:ForceRerender="ForceRerender"></Paging>
-        <FormButton :type="'Create'"></FormButton>
+        <b-navbar is-light >
+            <template #start>
+                <b-navbar-item>
+                    <FormButton :type="'Create'"></FormButton>
+                </b-navbar-item>
+            </template>
+
+            <template #end>
+                <b-navbar-item tag="div">
+                    <Paging v-on:ForceRerender="ForceRerender"></Paging>
+                </b-navbar-item>
+            </template>
+        </b-navbar>
+        <div>
+            <Search v-on:ForceRerender="ForceRerender" ></Search>
+            <ArticlesSection :key="ComponentKey" v-on:ForceRerender="ForceRerender"></ArticlesSection>
+            
+        </div>
     </div>
+
 </template>
   
 <script>
@@ -34,7 +49,7 @@ export default {
     },
     created()
     {
-        this.$store.dispatch('set_page',this.CurrentPage)
+        this.$store.dispatch('Paging/set_page',this.CurrentPage)
         bus.$on('Notification',(data)=>
         {
             if(data==='Succesfully Created Article' || data==='Succesfully Edited Article')

@@ -1,14 +1,29 @@
 <template>
     <div v-if="Article">
-        <div>
-            <h1>{{ Article.title }}</h1>
-            <h2>{{ Article.author.name }}</h2>
-            <p>{{ Article.content }}</p>
-            <h3>{{ Article.date }} </h3>
+        <b-navbar is-light >
+            <template #start>
+                <b-navbar-item tag="div">
+                    <FormButton :type="'Delete'" :id="Article.id"></FormButton>
+                    <FormButton :type="'Edit'" :id="Article.id"></FormButton>
+                </b-navbar-item>
+            </template>
+
+            <template #end>
+                <b-navbar-item>
+                    <b-button @click="GoBack">Go Back</b-button>
+                </b-navbar-item>
+            </template>   
+        </b-navbar>
+        <div class="card">
+            <div class="card-content">
+                <p class="title">{{ Article.title }}</p>
+                <p class="subtitle is-6">{{ Article.author }}</p>
+                <p class="subtitle is-4">{{ Article.content }}</p>
+                <p class="subtitle">{{ Article.date }} </p>
+            </div>
         </div>
-        <FormButton :type="'Delete'" :id="Article.id"></FormButton>
-        <FormButton :type="'Edit'" :id="Article.id"></FormButton>
     </div>
+  
 </template>
   
 <script>
@@ -38,9 +53,14 @@ export default {
         {
             this.$router.push('/page/1')
         },
+        GoBack()
+        {
+            this.$router.push(`/page/${this.$store.state.Paging.CurrentPage}`)
+        }
     },
     created()
     {
+        console.log(this.Article)
         bus.$on('Notification',(data)=>
         {
             if(data==='Succesfully Deleted Article')
@@ -51,3 +71,13 @@ export default {
     }
 };
 </script>
+<style scoped>
+.card{
+    margin-top: 30px;
+    
+}
+button
+{
+    margin: 5px;
+}
+</style>

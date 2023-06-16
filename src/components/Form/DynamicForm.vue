@@ -17,9 +17,9 @@ export default {
         };
     },
     methods:{
-        Open(type)
+        Open()
         {
-            this.$store.dispatch('open',type)
+            this.$store.dispatch('Modal/open')
         },
         IsComponent(type)
         {
@@ -43,10 +43,21 @@ export default {
     {
         bus.$on('Clicked', (data) =>
         {
+
            this.FormComponent = this.IsComponent(data.type)
            this.id = data.id
            this.Open(data.type)
         })
+    },
+    watch:{
+    '$store.state.Modal.Open':function()
+    {
+        
+      if(!this.$store.getters['Modal/Active']){
+        this.FormComponent = undefined
+        return
+        }
     }
+  }
 };
 </script>
