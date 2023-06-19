@@ -5,6 +5,19 @@ export default {
         CurrentPage:1,
         ArticleCount:1,
         },
+        getters:{
+          CurrentPage: (state) =>{
+            
+            return state.CurrentPage
+          },
+          ArticleCount:(state)=>{
+            return state.ArticleCount
+          },
+          TotalPages:(state)=>
+          {
+              return Math.ceil(state.ArticleCount / ARTICLES_PER_PAGE);
+          },
+        },
     mutations:{
         RESET_PAGE:(state)=>
         {
