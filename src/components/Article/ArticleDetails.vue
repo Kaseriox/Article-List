@@ -10,9 +10,10 @@
 
             <template #end>
                 <b-navbar-item>
-                    <b-button @click="GoBack">Go Back</b-button>
+                    <b-button @click="GoBack()">Go Back</b-button>
                 </b-navbar-item>
             </template>   
+
         </b-navbar>
         <div class="card">
             <div class="card-content">
@@ -28,9 +29,8 @@
   
 <script>
 
+import { mapGetters } from 'vuex';
 import FormButton from '../Buttons/FormButton.vue';
-import DynamicForm from '../Form/DynamicForm.vue';
-import {bus} from '../../main'
 
 export default {
     name: "ArticleDetails",
@@ -41,7 +41,6 @@ export default {
         }
     },
     components: {
-    DynamicForm,
     FormButton
 },
     data() {
@@ -49,32 +48,39 @@ export default {
         };
     },
     methods:{
-        PushToMainPage()
-        {
-            this.$router.push('/page/1')
-        },
         GoBack()
         {
-            this.$router.push(`/page/${this.$store.state.Paging.CurrentPage}`)
+            this.$router.push(`/`)
         }
     },
-    created()
-    {
-        console.log(this.Article)
-        bus.$on('Notification',(data)=>
-        {
-            if(data==='Succesfully Deleted Article')
-            {
-                this.PushToMainPage()
-            }
+    computed:{
+        ...mapGetters({
+            CurrentPage:'Paging/CurrentPage',
+            NotificationMessage:'Notification/message',
+            Times:'Refresh/times'
         })
+    },
+    watch:
+    {
+        NotificationMessage(NewMessage)
+        {
+            
+            if(NewMessage==="Article Deleted Succesfully")
+            {
+                this.$router.push('/')
+                return;
+            }
+        },
+        Times()
+        {
+            this.$emit('Reset')
+        }
     }
 };
 </script>
 <style scoped>
 .card{
     margin-top: 30px;
-    
 }
 button
 {

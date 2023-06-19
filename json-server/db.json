@@ -113,28 +113,12 @@
       "id": 19
     },
     {
-      "title": "The Renewable Energy",
+      "title": "Renewable Energy",
       "authorId": 6,
       "content": "Renewable energy sources are gaining prominence as the world seeks sustainable alternatives to fossil fuels. ",
       "created_at": "2023-06-11T19:40:47.958Z",
-      "updated_at": "2023-06-14T03:47:28.985Z",
+      "updated_at": "2023-06-17T21:09:11.349Z",
       "id": 155
-    },
-    {
-      "title": "Work-Life Balance",
-      "authorId": 9,
-      "content": "Maintaining a healthy work-life balance is essential for overall well-being and satisfaction. ",
-      "created_at": "2023-06-11T21:16:08.514Z",
-      "updated_at": "2023-06-14T16:21:14.554Z",
-      "id": 161
-    },
-    {
-      "title": "The Benefits of Outdoor Activities",
-      "authorId": 7,
-      "content": "true Engaging in outdoor activities has numerous benefits for children's physical and mental development. ",
-      "created_at": "2023-06-11T22:51:34.740Z",
-      "updated_at": "2023-06-14T15:05:10.791Z",
-      "id": 171
     }
   ]
 }

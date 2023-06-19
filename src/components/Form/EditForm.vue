@@ -1,5 +1,4 @@
 <template>
-	<ModalWindow :name="'Edit'">
 		 <div v-if="ArticleData" class="modal-card" style="width:auto">
 			<header class="modal-card-head">
 				<p class="modal-card-title>">Edit Form</p>
@@ -30,43 +29,34 @@
 				/>
 			</footer>
 	 	</div>
-	</ModalWindow>
 </template>
 
 <script>
-import ModalWindow from '../Modal/ModalWindow.vue';
-import {bus} from '../../main'
+import { mapActions, mapGetters } from 'vuex';
 
 	export default {
 		name: "EditForm",
-		props:
-		{
-			id:{
-				type:Number,
-				required:true
-			}
-		},
-		components: { ModalWindow },
+		components: {},
 		data() {
         return {
 			ArticleData:undefined
         };
     },
 	methods:{
-		Initialize()
-		{
-			this.GetArticleData()
-		},
+		...mapActions({
+			Close:'Modal/close',
+			set_message:'Notification/set_message'
+		}),
 		async GetArticleData()
 		{
 			const response = await this.$GetArticles(`/${this.id}`)
-			if(response.statusText ==='OK')
+			if(response !==null)
 			{
 				this.ArticleData = response.data
 			}
 			else
 			{
-				bus.$emit('Notification','Failed To Receive Article')
+				this.set_message("Could Not Get Article Data")
 				this.Close()
 			}
 		},
@@ -74,23 +64,15 @@ import {bus} from '../../main'
 		{
 			if(this.ValidateForm() ===true)
 			{
-				let response = await this.$UpdateArticle(this.id,{title:this.ArticleData.title,content:this.ArticleData.content})
-				if(response.statusText==='OK')
+				const response = await this.$UpdateArticle(this.id,{title:this.ArticleData.title,content:this.ArticleData.content})
+				if(response!==null)
 				{
-					response = await this.$UpdateAuthor(this.ArticleData.authorId)
-					if(response.statusText==='OK')
-					{
-						bus.$emit('Notification','Succesfully Edited Article')
-						this.Close()
-					}
-					else
-					{
-						bus.$emit('Notification','Failed To Update Author')
-					}
+					this.set_message("Succesfully Edited Article")
+					this.Close()
 				}
 				else
 				{
-					bus.$emit('Notification','Failed To Edit Article')
+					this.set_message("Failed To Update Article")
 				}	
 			}
 		},
@@ -98,29 +80,26 @@ import {bus} from '../../main'
 		{
 			if (this.ArticleData.title.length < 2)
 			{
-        		bus.$emit('Notification','Form Title Too Short')
-        		return false;
-      		}
-      		if (this.ArticleData.authorId === undefined)
-			{
-        		bus.$emit('Notification','Author Not Selected')
+        		this.set_message("Title Too Short")
         		return false;
       		}
       		if (this.ArticleData.content.length < 2)
 			{
-        		bus.$emit('Notification','Form Content Too Short')
+        		this.set_message("Content Too Short")
         		return false;
       		}
       		return true
 		},
-		Close()
-		{
-			this.$store.dispatch('Modal/close')
-		}
+	},
+	computed:{
+		...mapGetters({
+			id:'Form/id',
+		})
 	},
 	created()
 	{
-		this.Initialize()
-	}
-	}
+		this.GetArticleData()
+	},
+
+}
 </script>

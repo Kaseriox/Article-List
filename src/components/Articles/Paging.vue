@@ -6,6 +6,8 @@
 </template>
   
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
     name: "Paging",
     components: {
@@ -15,24 +17,26 @@ export default {
         };
     },
     methods:{
+        ...mapActions({
+            previous_page:'Paging/previous_page',
+            next_page:'Paging/next_page',
+
+        }),
         PreviousPage()
         {
-            this.$store.dispatch('Paging/previous_page')
-            this.$router.push(`/page/${this.$store.state.Paging.CurrentPage}`)
-            this.$emit('ForceRerender')
+            this.previous_page()
         },
         NextPage()
         {
-            this.$store.dispatch('Paging/next_page')
-            this.$router.push(`/page/${this.$store.state.Paging.CurrentPage}`)
-            this.$emit('ForceRerender')
+            this.next_page()
         },
     },
     computed:{
-        TotalPages()
-        {
-            return Math.ceil(this.$store.state.Paging.ArticleCount / 12);
-        }
+
+        ...mapGetters({
+            TotalPages:'Paging/TotalPages',
+            CurrentPage:'Paging/CurrentPage'
+        }),
     },
 };
 </script>

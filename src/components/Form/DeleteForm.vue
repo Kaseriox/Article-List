@@ -1,5 +1,4 @@
 <template>
-	<ModalWindow :name="'Delete'">
          <div  class="modal-card" style="width:auto">
 			<header class="modal-card-head">
 				<p class="modal-card-title>">Delete Form</p>
@@ -22,29 +21,24 @@
 				/>
 			</footer>
 	 	</div>
-
-
-	</ModalWindow>
 </template>
 
 <script>
-import ModalWindow from '../Modal/ModalWindow.vue';
-import {bus} from '../../main'
+import { mapActions, mapGetters } from 'vuex';
+
+
 	export default {
 		name: "DeleteForm",
-		props:
-		{
-			id:{
-				type:Number,
-				required:true
-			}
-		},
-		components: { ModalWindow },
+		components: { },
 		data() {
         return {
         };
     },
 	methods:{
+        ...mapActions({
+            Close:"Modal/close",
+            set_message:"Notification/set_message"
+        }),
         HandleForm(Response)
         {
             if(Response === 'No')
@@ -56,24 +50,25 @@ import {bus} from '../../main'
                 this.DeleteArticle()
             }
         },
-		Close()
-		{
-			this.$store.dispatch('Modal/close')
-		},
         async DeleteArticle()
         {
             const response = await this.$DeleteArticle(this.id)
-            if(response.statusText === 'OK')
+            if(response !== null)
             {
-                bus.$emit('Notification','Succesfully Deleted Article')
+                this.set_message("Article Deleted Succesfully")
                 this.Close()
             }
             else
             {
-                bus.$emit('Notification','Failed To Delete Article')
+                this.set_message("Could Not Delete Article")
             }
         },
 	},
+    computed:{
+        ...mapGetters({
+            id:'Form/id'
+        })
+    }
 
 	}
 </script>

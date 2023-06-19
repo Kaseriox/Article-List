@@ -5,7 +5,7 @@
             has-icon
             :closable="false"
             aria-close-label="Close notification"
-            @click="SetMessage('')">
+            @click="set_message(undefined)">
             <p>{{ message }}</p>
             <i >Click To Close</i>
         </b-notification>
@@ -14,29 +14,27 @@
 </template>
   
 <script>
-import { bus } from '../../main';
+import { mapActions, mapGetters } from 'vuex';
+
 
 export default {
     name: "Notification",
     components: {
     },
     data() {
-        return {
-            message:undefined
-        };
+        return{}
     },
-    methods:
-    {
-        SetMessage(data)
-        {
-            this.message=data
-        }
+    methods:{
+        ...mapActions({
+            set_message:'Notification/set_message'
+        })
     },
-    created()
-    {
-        
-        bus.$on('Notification',(data)=>this.SetMessage(data))
-    }
+    computed:{
+        ...mapGetters({
+            message:'Notification/message'
+        }),
+    },
+
 };
 </script>
 <style scoped>

@@ -5,7 +5,8 @@
 </template>
   
   <script>
-  import {bus} from '../main'
+import { mapActions } from 'vuex';
+
   export default {
     name: "PageNotFoundView",
     components:{
@@ -16,9 +17,14 @@
         
       };
     },
-    mounted()
+    methods:{
+      ...mapActions({
+        set_message:"Notification/set_message",
+      }),
+    },
+    created()
     {
-      bus.$emit('Notification','Page Does Not Exist')
+      this.set_message('404 Page Not Found')
     }
   };
   </script>

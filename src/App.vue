@@ -1,20 +1,21 @@
 <template>
   <div id="app">
-    <router-view></router-view>
-    <Notification></Notification>
-    <DynamicForm></DynamicForm>
+    <router-view/>
+    <Notification/>
+    <ModalWindow/>
   </div>
 </template>
 
 <script>
 import Notification from './components/Notification/Notification.vue';
-import DynamicForm from './components/Form/DynamicForm.vue';
+import ModalWindow from './components/Modal/ModalWindow.vue';
 
 
 
 export default {
   components: {
-    Notification,DynamicForm
+    Notification,
+    ModalWindow
 },
   watch:{
     '$store.state.Modal.Open':function()

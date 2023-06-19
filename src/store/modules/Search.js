@@ -6,6 +6,13 @@ export default {
     state:{
         SearchQuery:'',
         },
+        getters:
+        {
+            SearchQuery:(state) =>
+            {
+                return state.SearchQuery
+            }
+        },
     mutations:{
         SEARCH:(state,payload)=>
         {
@@ -13,10 +20,10 @@ export default {
         },
     },
     actions:{
-        search:(context,payload)=>
+        search:({commit,dispatch},payload)=>
         {
-            context.commit('RESET_PAGE')
-            context.commit('SEARCH',payload)
+            dispatch('Paging/reset_page',null,{root:true})
+            commit('SEARCH',payload)
         },
     }
 }

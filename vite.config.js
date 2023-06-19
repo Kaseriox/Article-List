@@ -6,5 +6,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-  }
+  },
+  define: {
+        ARTICLES_PER_PAGE:3,
+      global: {
+        appName: "my-custom-name"
+      }
+  },
 })

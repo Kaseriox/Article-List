@@ -2,13 +2,14 @@
     <div class="field">
         <label class="label">Search</label>
         <div class="control">
-            <input class="input" type="text" placeholder="Search" @input="DebounceTest">
+            <input class="input" type="text" placeholder="Search" @input="Searching">
         </div>
     </div>
 </template>
   
 <script>
 import debounce from 'debounce';
+import { mapActions } from 'vuex';
 
 export default {
     name: "Search",
@@ -19,17 +20,14 @@ export default {
         };
     },
     methods:{
+        ...mapActions({
+            search:'Search/search'
+        }),
         Search(value)
         {
-            this.$store.dispatch('Search/search',value)
-            this.$router.push('/page/1')
-            this.ForceRerender()
+           this.search(value)
         },
-        ForceRerender()
-        {
-            this.$emit('ForceRerender')
-        },
-        DebounceTest:debounce(function(e)
+        Searching:debounce(function(e)
         {
             this.Search(e.target.value)
         },400)
