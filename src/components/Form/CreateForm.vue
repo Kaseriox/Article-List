@@ -1,6 +1,5 @@
 <template>
-	<ModalWindow :name="'Create'">
-		<div v-if="Authors" class="modal-card" style="width:auto">
+		<div  class="modal-card" style="width:auto">
 			<header class="modal-card-head">
 				<p class="modal-card-title>">Create Form</p>
 				
@@ -37,17 +36,14 @@
 				/>
 			</footer>
 	 	</div>
-	</ModalWindow>
 </template>
 
 <script>
-import ModalWindow from '../Modal/ModalWindow.vue';
-import {bus} from '../../main'
+import { mapActions } from 'vuex';
 
-
-	export default {
-		name: "CreateFormTest",
-		components: { ModalWindow} ,
+export default {
+		name: "CreateForm",
+		components: {} ,
 		data() {
         return {
 			FormInput:{
@@ -59,45 +55,40 @@ import {bus} from '../../main'
         };
     },
 	methods:{
-		Initialize()
-		{
-			this.GetAuthors()
-		},
+		...mapActions({
+			set_message:'Notification/set_message',
+			Close:'Modal/close'
+		}),
 		async GetAuthors()
 		{
 			const response = await this.$GetAuthors()
-			if(response.statusText==='OK')
+			if(response!==null)
 			{
 				this.Authors = response.data
+			}
+			else
+			{
+				this.set_message("Could Not Get Authors")
 			}
 		},
 		async HandleForm()
 		{
 			if(this.ValidateForm() === true)
 			{
-				let response = await this.$CreateArticle(this.FormInput)
-				if(response.statusText === 'Created')
+				const response = await this.$CreateArticle(this.FormInput)
+				if(response !== null)
 				{
-					response = await this.$UpdateAuthor(this.FormInput.authorId)
-					if(response.statusText==='OK')
-					{
-						bus.$emit('Notification','Succesfully Created Article')
-						this.FormInput={
-							title:'',
-							authorId:undefined,
-							content:''
-						}
-						this.Close()
+					this.set_message("Article Created Succesfully")
+					this.FormInput={
+						title:'',
+						authorId:undefined,
+						content:''
 					}
-					else
-					{
-						bus.$emit('Notification','Failed To Update Author')
-					}
-					
+					this.Close()
 				}
 				else
 				{
-					bus.$emit('Notification','Failed To Create Article')
+					this.set_message("Could Not Create Article")
 				}
 			}
 		},
@@ -105,39 +96,29 @@ import {bus} from '../../main'
 		{
 			if (this.FormInput.title.length < 2)
 			{
-        		bus.$emit('Notification','Form Title Too Short')
+        		this.set_message("Title Too Short")
         		return false;
       		}
       		if (this.FormInput.authorId === undefined)
 			{
-        		bus.$emit('Notification','Author Not Selected')
+        		this.set_message("Select An Author")
         		return false;
       		}
       		if (this.FormInput.content.length < 2)
 			{
-        		bus.$emit('Notification','Form Content Too Short')
+        		this.set_message("Content Too Short")
         		return false;
-      		}
+    		}
       		return true
 		},
-		Close()
-		{
-			this.$store.dispatch('Modal/close')
-		}
 
 	},
-	created()
-	{
-		this.Initialize()
+	created(){
+		this.GetAuthors()
 	}
-	}
+}
 </script>
 
 <style scoped>
-.Form-Box
-{
-	display: flex;
-	flex-direction: column;
-}
 
 </style>

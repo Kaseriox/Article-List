@@ -1,20 +1,16 @@
 <template>
-    <div class="modal-overlay" v-if="IsOpen">
+    <div class="modal-overlay" v-if="Active">
         <div class="modal-content">
-            <slot></slot>
+            <component :is="Component"></component>
         </div>
     </div>
 </template>
   
 <script>
+import { mapGetters,mapActions } from 'vuex';
+
 export default {
     name: "ModalWindow",
-    props:{
-        name:{
-            type:String,
-            required:true,
-        }
-    },
     components: {
     },
     data() {
@@ -22,17 +18,15 @@ export default {
         };
     },
     methods:{
-        Close()
-        {
-
-            this.$store.dispatch('Modal/close')
-        },
+        ...mapActions({
+            Close:'Modal/close',
+        })
     },
     computed:{
-        IsOpen()
-        {
-            return this.$store.getters['Modal/Active']
-        },
+        ...mapGetters({
+            Active:'Modal/Active',
+            Component:'Modal/Component'
+        })
     },
     beforeDestroy(){
         if(this.IsOpen)

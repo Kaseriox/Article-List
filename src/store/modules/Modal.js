@@ -5,11 +5,11 @@ export default {
     namespaced:true,
     state:{
         Open:false,
+        Component:undefined,
         },
     getters:{
-        
         Active:(state) => state.Open,
-
+        Component:(state)=> state.Component,
     },
     mutations:{
         OPEN:(state)=>{
@@ -18,14 +18,23 @@ export default {
         CLOSE:(state)=>
         {
            state.Open = false
+           state.Component = undefined
         },
+        SET_COMPONENT:(state,payload)=>
+        {
+            state.Component = payload
+        }
     },
     actions:{
-        open:(context)=>{
-            context.commit('OPEN')
+        open:({commit})=>{
+            commit('OPEN')
         },
-        close:(context)=>{
-            context.commit('CLOSE')
+        close:({commit})=>{
+            commit('CLOSE')
         },
+        set_component({commit},payload)
+        {
+            commit('SET_COMPONENT',payload)
+        }
     }
 }

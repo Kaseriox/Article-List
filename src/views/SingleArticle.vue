@@ -1,12 +1,12 @@
 <template>
   <div v-if="Article">
-    <ArticleDetails :Article="ArticleProp()" ></ArticleDetails>
+    <ArticleDetails v-on:Reset="Reset" :Article="ArticleProp()" ></ArticleDetails>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import ArticleDetails from '../components/Article/ArticleDetails.vue';
-import {bus} from '../main'
 
 export default {
   name: "SingleArticle",
@@ -15,27 +15,29 @@ export default {
     return {
       id: this.$route.params.id,
       Article: undefined,
-      ComponentKey:0
     };
   },
   methods: {
+    ...mapActions({
+      set_message:'Notification/set_message'
+    }),
     async GetArticle() 
     {
       let response = await this.$GetArticles(`/${this.id}?_expand=author`);
-      if (response.statusText === "OK") 
+      if (response !== null) 
       {
         this.Article = response.data;
         this.Article.created_at = new Date(this.Article.created_at).toLocaleString();
         this.Article.updated_at = new Date(this.Article.updated_at).toLocaleString();
       } 
-      else if (response === 404) 
-      {
-        bus.$emit('Notification','Article Does Not Exist')
-      } 
       else 
       {
-        bus.$emit('Notification','Server Not Responding')
+        this.set_message("Could Not Get Article")
       }
+    },
+    Reset()
+    {
+      this.GetArticle()
     },
     ArticleProp()
     {
@@ -50,14 +52,6 @@ export default {
   },
   created() {
     this.GetArticle()
-    bus.$on('Notification',(data)=>
-    {
-      if(data==='Succesfully Edited Article')
-      {
-        this.GetArticle()
-      }
-    })
-    
   },
 };
 </script>

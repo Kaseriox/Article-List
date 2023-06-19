@@ -1,14 +1,14 @@
 <template>
   <div class="columns is-multiline is-mobile" v-if="Articles">
     <div class="column is-one-quarter" v-for="Article in Articles">
-        <ArticleCard :ArticleData="ArticleProp(Article)" v-on:Refresh="Refresh"></ArticleCard>
+        <ArticleCard :ArticleData="ArticleProp(Article)"></ArticleCard>
     </div>
   </div>
 </template>
 
 <script>
 import ArticleCard from './ArticleCard.vue';
-import {bus} from '../../main'
+import { mapActions, mapGetters } from 'vuex';
 export default {
   name: "ArticlesSection",
   components: { ArticleCard },
@@ -17,29 +17,33 @@ export default {
         Articles:undefined,
     };
   },
-  methods: {
-    Initialize() {
-        this.GetArticleData()
-    },
-    async GetArticleData() {
-      const response = await this.$GetArticles(`?_expand=author&_limit=12&_page=${this.$store.state.Paging.CurrentPage}${this.$store.state.Search.SearchQuery === '' ? "" : `&q=${this.$store.state.Search.SearchQuery} `}`)
-      if (response.statusText === "OK") 
-      {
-        this.Articles = response.data;
-        this.$store.dispatch('Paging/set_article_count',response.headers["x-total-count"])
-        if(this.Articles.length === 0 && this.$store.state.Search.SearchQuery === '')
-        {
-          bus.$emit('Notification','There Are No Articles')
-        }
+  methods: { 
+    ...mapActions({
+        set_article_count:'Paging/set_article_count',
+        previous_page:'Paging/previous_page',
+        set_message:'Notification/set_message'
+      }),
 
-      } 
-      else if(response === 404)
+    async GetArticleData() {
+      const response = await this.$GetArticles(`?_expand=author&_limit=${ARTICLES_PER_PAGE}&_page=${this.CurrentPage}${this.Search === '' ? "" : `&q=${this.Search} `}`)
+      if (response !== null) 
       {
-        bus.$emit('Notification','Page Does Not Exist')
-      }
+        
+        if(response.length === 0 && this.Search === '')
+        {
+          if(response.headers["x-total-count"] !== 0)
+          {
+            this.previous_page()
+          }
+          this.set_message('No New Articles')
+          return
+        }
+        this.Articles = response.data;
+        this.set_article_count(response.headers["x-total-count"])
+      } 
       else
       {
-        bus.$emit('Notification','Server Not Responding')
+        this.set_message('Could Not Get Articles')
       }
     },
     ArticleProp(Prop)
@@ -52,19 +56,44 @@ export default {
         }
         return ArticleP
     },
-    Refresh()
-    {
-      if(this.Articles.length === 1 && this.$store.state.Paging.CurrentPage != 1)
-      {
-            this.$store.dispatch('Paging/previous_page')
-            this.$router.push(`/page/${this.$store.state.Paging.CurrentPage}`)
-            
-      }
-      this.$emit('ForceRerender')
-    }
+  },
+  computed:{
+    ...mapGetters({
+      CurrentPage:'Paging/CurrentPage',
+      Search:'Search/SearchQuery',
+      ArticleCount:'Paging/ArticleCount',
+      TotalPages:'Paging/TotalPages',
+      NotificationMessage:'Notification/message',
+      Times:'Refresh/times'
+    })
   },
   created() {
-    this.Initialize()
+    this.GetArticleData()
   },
+  watch:{
+    CurrentPage()
+    {
+      this.GetArticleData()
+    },
+    Search()
+    {
+      this.GetArticleData()
+    },
+    ArticleCount()
+    {
+      if(this.CurrentPage > this.TotalPages)
+      {
+        this.previous_page()
+      }
+    },
+    Times()
+    {
+      if(this.NotificationMessage !== 'Could Not Get Articles')
+      {
+          this.GetArticleData()
+      }
+
+    }
+  }
 };
 </script>
