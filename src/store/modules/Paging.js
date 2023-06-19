@@ -5,19 +5,6 @@ export default {
         CurrentPage:1,
         ArticleCount:1,
         },
-        getters:{
-          CurrentPage: (state) =>{
-            
-            return state.CurrentPage
-          },
-          ArticleCount:(state)=>{
-            return state.ArticleCount
-          },
-          TotalPages:(state)=>
-          {
-              return Math.ceil(state.ArticleCount / ARTICLES_PER_PAGE);
-          },
-        },
     mutations:{
         RESET_PAGE:(state)=>
         {
@@ -45,25 +32,25 @@ export default {
         },
     },
     actions:{
-        set_page:(context,payload)=>
+        set_page:({commit},payload)=>
         {
-            context.commit('SET_PAGE',payload)
+            commit('SET_PAGE',payload)
         },
-        reset_page:(context)=>
+        reset_page:({commit})=>
         {
-            context.commit('RESET_PAGE')
+            commit('RESET_PAGE')
         },
-        next_page:(context)=>
+        next_page:({commit})=>
         {
-            context.commit('NEXT_PAGE')
+            commit('NEXT_PAGE')
         },
-        previous_page:(context)=>
+        previous_page:({commit})=>
         {
-            context.commit('PREVIOUS_PAGE')
+            commit('PREVIOUS_PAGE')
         },
-        set_article_count:(context,payload)=>
+        set_article_count:({commit},payload)=>
         {
-            context.commit('SET_ARTICLE_COUNT',payload)
+            commit('SET_ARTICLE_COUNT',payload)
         }
     }
 }
