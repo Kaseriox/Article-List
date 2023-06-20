@@ -20,14 +20,32 @@ describe("CreateForm.vue", () => {
             modules:{
                 Modal:{
                     namespaced:true,
+                    state:{
+                        Open:true
+                    },
+                    mutations:{
+                        CLOSE:(state)=> state.Open = false
+                    },
                     actions:{
-                            close:vi.fn()
+                            close:({commit})=>commit('CLOSE')
                     },
                 },
-                Form:{
+                Notification:{
                     namespaced:true,
+                    state:{
+                        message:''
+                    },
+                    mutations:{
+                        SET_MESSAGE(state,payload)
+                        {
+                            state.message = payload
+                        }
+                    },
                     actions:{
-                        set_form:vi.fn()
+                        set_message({commit},payload)
+                        {
+                            commit('SET_MESSAGE',payload)
+                        }
                     }
                 }
             }
@@ -40,7 +58,27 @@ describe("CreateForm.vue", () => {
     })
    
     it("Should Render Correct Text On Button", ()=>{
-        
+        expect(store.state.Modal.Open).toBe(true)
+        wrapper.find('[class="button Close-Button"]').trigger('click')
+        expect(store.state.Modal.Open).toBe(false)
     })
 
+    it("Should Validate Form When Trying To Create New Article", ()=>{
+        const ValidationSpy = vi.spyOn(wrapper.vm,'ValidateForm')
+        expect(store.state.Modal.Open).toBe(true)
+        wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        expect(ValidationSpy).toHaveBeenCalledOnce()
+    })
+
+    it("Notification Should Pop-Up Saying That Title Is Too Short", ()=>{
+        expect(store.state.Notification.message).toBe('')
+        wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        expect(store.state.Notification.message).toBe('Title Too Short')
+    })
+    
+    it("Notification Should Pop-Up Saying That Select An Author", ()=>{
+        expect(store.state.Notification.message).toBe('')
+        wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        expect(store.state.Notification.message).toBe('Title Too Short')
+    })
 })

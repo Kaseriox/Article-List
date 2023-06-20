@@ -67,8 +67,13 @@ describe("ArticlesSection.vue", () => {
                     }
                 }
             },
-            mocks:{
-                $GetArticles() {
+
+        })
+        wrapper =  mount(ArticlesSection,{
+                localVue,
+                store, 
+                mocks:{
+                    $GetArticles() {
                         return new Promise(resolve => resolve({
                             data:[
                                 {id:555,
@@ -84,11 +89,10 @@ describe("ArticlesSection.vue", () => {
                             }
                     }))
                 },
+            },
+            stubs:{
+                "router-link":true
             }
-        })
-        wrapper =  mount(ArticlesSection,{
-                localVue,
-                store,
         })
   
     })

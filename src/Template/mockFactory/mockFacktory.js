@@ -1,4 +1,9 @@
-import { shallowMount} from '@vue/test-utils'
+import { createLocalVue,mount} from '@vue/test-utils'
+import Store from '../../store/store'
+import Buefy from 'buefy'
+import Vuex from 'vuex'
+import API from '../../Plugins/API'
+import VueRouter from "vue-router";
 
 
 
@@ -29,7 +34,20 @@ export function mergeDeep(target, ...sources) {
 
 
 function createWrapper(page, overrides) {
+
+
+
+    const localVue = createLocalVue()
+
+    localVue.use(VueRouter)
+    localVue.use(Buefy)
+    localVue.use(Vuex)
+    localVue.use(API)
+    const store = new Vuex.Store(Store)
+
     const defaultMountingOptions = {
+        localVue,
+        store,
         mocks: {
             $axios: {
                 get: () => {
@@ -38,17 +56,19 @@ function createWrapper(page, overrides) {
                 put: () => Promise.resolve({}),
                 post: () => Promise.resolve({}),
             },
+            $router:
+            {
+                push:vi.fn()
+            }
         },
         stubs: {
-            'b-navbar':true,
-            'b-navbar-item':true,
-            'b-button':true,
-            'router-link':true,
+            "router-link":true
         },
-        propsData: {}
+        propsData: {},
+        
 
     }
-    return shallowMount(
+    return mount(
         page,
         mergeDeep(
             defaultMountingOptions,

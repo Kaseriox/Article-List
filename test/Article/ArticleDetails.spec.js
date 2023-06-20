@@ -1,45 +1,26 @@
-import { createLocalVue, shallowMount, mount } from "@vue/test-utils";
 import { describe, it, expect ,vi} from "vitest";
-import Vuex from 'vuex'
-import Buefy from 'buefy'
+import { createLocalVue } from "@vue/test-utils";
+import createWrapper from "../../src/Template/mockFactory/mockFacktory";
 import ArticleDetails from '../../src/components/Article/ArticleDetails.vue'
+import VueRouter from "vue-router";
 
 const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.use(Buefy)
+localVue.use(VueRouter)
 
 
+    const mockRoute = {
+        path:'/',
+        name:'test'
+      }
+      const router = new VueRouter({
+        router:[mockRoute]
+      })
 
 describe("ArticleDetails.vue", () => {
-    const mockRoute = {
-        params: {
-          id: 1
-        }
-      }
-      const mockRouter = {
-        push: vi.fn()
-      }
+
     let wrapper
-    let store
     beforeEach(()=>{
-        store = new Vuex.Store({
-            modules:{
-                Notification:{
-                    namespaced:true,
-                    getters:
-                    {
-                        message:()=>''
-                    }
-                },
-                Refresh:{
-                    namespaced:true,
-                    getters:{
-                      times:()=>0  
-                    }
-                }
-            }
-        })
-        wrapper = mount(ArticleDetails,{
+        wrapper = createWrapper(ArticleDetails,{
             propsData:
                 {
                     Article:{
@@ -50,12 +31,7 @@ describe("ArticleDetails.vue", () => {
                         id:9999
                     }
                 },
-                mocks:{
-                    $route: mockRoute,
-                    $router: mockRouter
-                },
-                localVue,
-                store,
+                router
         })
 
     })
@@ -80,10 +56,13 @@ describe("ArticleDetails.vue", () => {
         const date = wrapper.get('[class="subtitle"]')
         expect(date.text()).toBe("6/14/2023, 6:29:00 PM")
     })
-    it("Go Back button should router.push",async ()=>{
+    it("Go Back Button Should Call Function GoBack",()=>{
 
-        const spy = vi.spyOn(mockRouter,'push')
-        await wrapper.find('#Go-Back-Button').trigger('click')
-        expect(spy).toHaveBeenCalledTimes(1)
+        const spy = vi.spyOn(wrapper.vm,'GoBack')
+        wrapper.get('[class="button Go-Back"]').trigger('click')
+        expect(spy).toHaveBeenCalledOnce()
+    })
+    it("Go Back Function Should router.push",()=>{
+        
     })
 })

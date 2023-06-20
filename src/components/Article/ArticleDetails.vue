@@ -10,7 +10,7 @@
 
             <template #end>
                 <b-navbar-item>
-                    <b-button id="Go-Back-Button" @click="GoBack()">Go Back</b-button>
+                    <b-button class="Go-Back" @click="GoBack()">Go Back</b-button>
                 </b-navbar-item>
             </template>   
 

@@ -27,9 +27,11 @@
 
 			<footer class="modal-card-foot">
 				<b-button
+				class="Close-Button"
 				label="Close"
 				@click="Close" />
 				<b-button 
+				class="Submit-Button"
 				label="Create Article"
 				type="is-primary"
 				@click="HandleForm"
