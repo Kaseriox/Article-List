@@ -10,7 +10,7 @@
 
             <template #end>
                 <b-navbar-item>
-                    <b-button @click="GoBack()">Go Back</b-button>
+                    <b-button id="Go-Back-Button" @click="GoBack()">Go Back</b-button>
                 </b-navbar-item>
             </template>   
 
@@ -55,7 +55,6 @@ export default {
     },
     computed:{
         ...mapGetters({
-            CurrentPage:'Paging/CurrentPage',
             NotificationMessage:'Notification/message',
             Times:'Refresh/times'
         })

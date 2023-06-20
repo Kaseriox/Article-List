@@ -18,7 +18,7 @@ const router = new VueRouter({
     mode:'history'
 })
 const store = new Vuex.Store(Store)
-export const bus = new Vue()
+
 
 new Vue({
     render: (h) => h(App),

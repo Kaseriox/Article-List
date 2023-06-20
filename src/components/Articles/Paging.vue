@@ -1,7 +1,7 @@
 <template>
     <div class="buttons">
-        <b-button @click="PreviousPage" :disabled="this.$store.state.Paging.CurrentPage <= 1 || this.$store.state.Paging.CurrentPage > TotalPages">Previous Page</b-button>
-        <b-button @click="NextPage" :disabled="this.$store.state.Paging.CurrentPage >= TotalPages">Next Page</b-button>
+        <b-button class="Previous-Page" @click="PreviousPage" :disabled="CurrentPage <= 1 || CurrentPage > TotalPages">Previous Page</b-button>
+        <b-button class="Next-Page" @click="NextPage" :disabled="CurrentPage >= TotalPages">Next Page</b-button>
     </div>
 </template>
   
