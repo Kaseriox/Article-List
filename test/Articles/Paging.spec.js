@@ -1,10 +1,10 @@
 import { describe, it, expect,vi } from "vitest";
-import { createLocalVue,mount } from "@vue/test-utils";
-import Store from "../../src/store/store";
+import { createLocalVue } from "@vue/test-utils";
+
 import Paging from '../../src/components/Articles/Paging.vue'
 import Vuex from 'vuex'
 import Buefy from 'buefy'
-import createWrapper from "../../src/Template/mockFactory/mockFacktory";
+import createWrapper from "../.mockFactory/mockFacktory";
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Buefy)

@@ -24,9 +24,7 @@ export default {
         set_message:'Notification/set_message'
       }),
 
-    async GetArticleData() {
-      //console.log(`?_expand=author&_limit=${ARTICLES_PER_PAGE}&_page=${this.CurrentPage}${this.Search === '' ? "" : `&q=${this.Search} `}`)
-     
+    async GetArticleData() {     
       const response = await this.$GetArticles(`?_expand=author&_limit=${ARTICLES_PER_PAGE}&_page=${this.CurrentPage}${this.Search === '' ? "" : `&q=${this.Search} `}`)
       if (response !== null) 
       {

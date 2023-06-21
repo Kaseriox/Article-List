@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { beforeAll } from "vitest";
-import createWrapper from '../../src/Template/mockFactory/mockFacktory';
+import createWrapper from '../.mockFactory/mockFacktory';
 import ArticleCard from '../../src/components/Articles/ArticleCard.vue'
 
 

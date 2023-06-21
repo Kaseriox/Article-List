@@ -1,9 +1,9 @@
 import { createLocalVue,mount} from '@vue/test-utils'
 
-import Store from '../../store/store'
+import Store from '../../src/store/store'
 import Buefy from 'buefy'
 import Vuex from 'vuex'
-import API from '../../Plugins/API'
+import API from '../../src/Plugins/API'
 
 var _ = require('lodash')
 
@@ -75,7 +75,11 @@ function createWrapper(page, overrides) {
             },
             $DeleteArticle()
             {
-                return   Promise.resolve({statusText:'Deleted'})
+                return Promise.resolve({statusText:'Deleted'})
+            },
+            $UpdateArticle()
+            {
+                return Promise.resolve({statusText:"Edited"})
             },
             $router:
             {

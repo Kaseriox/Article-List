@@ -5,7 +5,7 @@ import FormButton from '../../src/components/Buttons/FormButton.vue'
 import { createLocalVue } from "@vue/test-utils";
 import Buefy from 'buefy'
 import Vuex from 'vuex'
-import createWrapper from "../../src/Template/mockFactory/mockFacktory";
+import createWrapper from "../.mockFactory/mockFacktory";
 
 const localVue = createLocalVue()
 
@@ -120,11 +120,39 @@ describe("FormButton.vue", () => {
         await wrapper.find('button').trigger('click')
         expect(store.state.Modal.Open).toBe(true)
     })
-    it("Set_Component Action Of Module Modal Should Be Correctly Working",async ()=>
+    it("Set_Component Action Of Module Modal Should Be Correctly Working When Type Is Edit",async ()=>
     {
         expect(store.state.Modal.Component).toBe(undefined)
         await wrapper.find('button').trigger('click')
         expect(store.state.Modal.Component.name).toBe('EditForm')
+    })
+    it("Set_Component Action Of Module Modal Should Be Correctly Working When Type Is Create",async ()=>
+    {
+        wrapper = createWrapper (FormButton,{
+            propsData:{
+                type:'Create',
+                id:444,
+                },
+                localVue,
+                store,
+        })
+        expect(store.state.Modal.Component).toBe(undefined)
+        await wrapper.find('button').trigger('click')
+        expect(store.state.Modal.Component.name).toBe('CreateForm')
+    })
+    it("Set_Component Action Of Module Modal Should Be Correctly Working When Type Is Delete",async ()=>
+    {
+        wrapper = createWrapper (FormButton,{
+            propsData:{
+                type:'Delete',
+                id:44,
+                },
+                localVue,
+                store,
+        })
+        expect(store.state.Modal.Component).toBe(undefined)
+        await wrapper.find('button').trigger('click')
+        expect(store.state.Modal.Component.name).toBe('DeleteForm')
     })
     it("Set_Form Action Of Module Form Should Be Correctly Working",async ()=>
     {

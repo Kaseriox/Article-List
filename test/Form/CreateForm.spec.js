@@ -4,7 +4,7 @@ import { createLocalVue } from "@vue/test-utils";
 import Buefy from 'buefy'
 import Vuex from 'vuex'
 import API from '../../src/Plugins/API'
-import createWrapper from "../../src/Template/mockFactory/mockFacktory";
+import createWrapper from "../.mockFactory/mockFacktory";
 const localVue = createLocalVue()
 
 localVue.use(Buefy)
@@ -59,9 +59,9 @@ describe("CreateForm.vue", () => {
 
     })
    
-    it("Should Correcly Close Form ", ()=>{
+    it("Should Correcly Close Form ", async ()=>{
         expect(store.state.Modal.Open).toBe(true)
-        wrapper.find('[class="button Close-Button"]').trigger('click')
+        await wrapper.find('[class="button Close-Button"]').trigger('click')
         expect(store.state.Modal.Open).toBe(false)
     })
     it("Should Call GetAuthors Function On Create",()=>
@@ -87,18 +87,18 @@ describe("CreateForm.vue", () => {
     })
 
 
-    it("Should Validate Form When Trying To Create New Article", ()=>{
+    it("Should Validate Form When Trying To Create New Article", async ()=>{
         const ValidationSpy = vi.spyOn(wrapper.vm,'ValidateForm')
         expect(ValidationSpy).toHaveBeenCalledTimes(0)
         expect(store.state.Modal.Open).toBe(true)
-        wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
         expect(ValidationSpy).toHaveBeenCalledTimes(1)
     })
 
     
-    it("Notification Should Pop-Up Saying That Title Is Too Short", ()=>{
+    it("Notification Should Pop-Up Saying That Title Is Too Short", async ()=>{
         expect(store.state.Notification.message).toBe('')
-        wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
         expect(store.state.Notification.message).toBe('Title Too Short')
         store.state.Notification.message = ''
     })
@@ -110,7 +110,7 @@ describe("CreateForm.vue", () => {
             authorId:undefined,
             content:'',
             }})
-        wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
         expect(store.state.Notification.message).toBe('Select An Author')
         store.state.Notification.message = ''
     })
@@ -125,7 +125,7 @@ describe("CreateForm.vue", () => {
             authorId:2,
             content:'',
             }})
-        wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
         expect(store.state.Notification.message).toBe('Content Too Short')
         store.state.Notification.message = ''
 
@@ -141,7 +141,7 @@ describe("CreateForm.vue", () => {
             authorId:2,
             content:'testtt',
             }})
-        wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
         await wrapper.vm.$nextTick()
         expect(store.state.Notification.message).toBe("Article Created Succesfully")
         expect(CreateArticleSpy).toHaveBeenCalledTimes(1)

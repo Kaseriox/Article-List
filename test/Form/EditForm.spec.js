@@ -4,7 +4,7 @@ import { createLocalVue } from "@vue/test-utils";
 import Buefy from 'buefy'
 import Vuex from 'vuex'
 import API from '../../src/Plugins/API'
-import createWrapper from "../../src/Template/mockFactory/mockFacktory";
+import createWrapper from "../.mockFactory/mockFacktory";
 const localVue = createLocalVue()
 
 localVue.use(Buefy)
@@ -80,9 +80,9 @@ describe("CreateForm.vue", () => {
         ])
     })
 
-    it("Should Correctly Close Form", ()=>{
+    it("Should Correctly Close Form",async ()=>{
         expect(store.state.Modal.Open).toBe(true)
-        wrapper.find('[class="button Close-Button"]').trigger('click')
+        await wrapper.find('[class="button Close-Button"]').trigger('click')
         expect(store.state.Modal.Open).toBe(false)
     })
 
@@ -92,7 +92,7 @@ describe("CreateForm.vue", () => {
             title:'',
             content:'',
             }})
-        wrapper.find('[class="button is-primary"]').trigger('click')
+        await wrapper.find('[class="button is-primary"]').trigger('click')
         expect(store.state.Notification.message).toBe('Title Too Short')
         store.state.Notification.message = ''
     })
@@ -114,8 +114,9 @@ describe("CreateForm.vue", () => {
             title:'ssss',
             content:'sssss',
             }})
-        wrapper.find('[class="button is-primary"]').trigger('click')
-        expect(store.state.Notification.message).toBe('')
+        await wrapper.find('[class="button is-primary"]').trigger('click')
+        await wrapper.vm.$nextTick()
+        expect(store.state.Notification.message).toBe('Succesfully Edited Article')
         store.state.Notification.message = ''
     })
 

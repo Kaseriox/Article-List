@@ -29,7 +29,7 @@ export default {
         })
     },
     beforeDestroy(){
-        if(this.IsOpen)
+        if(this.Active)
         {
             this.Close()
         }

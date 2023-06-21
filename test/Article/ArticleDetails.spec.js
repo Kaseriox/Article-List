@@ -1,10 +1,49 @@
 import { describe, it, expect ,vi} from "vitest";
-
-import createWrapper from "../../src/Template/mockFactory/mockFacktory";
+import { createLocalVue } from "@vue/test-utils";
+import createWrapper from "../.mockFactory/mockFacktory";
 import ArticleDetails from '../../src/components/Article/ArticleDetails.vue'
+import Vuex from 'vuex'
+import Buefy from 'buefy'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
+localVue.use(Buefy)
 
 
-
+const store = new Vuex.Store({
+    modules:{
+        Notification:{
+            namespaced:true,
+            state:{
+                message:''
+            },
+            getters:
+            {
+                message:(state)=>state.message
+            },
+            mutations:{
+                SET_MESSAGE(state,payload)
+                {
+                    state.message = payload
+                }
+            },
+            actions:{
+                set_message({commit},payload)
+                {
+                    commit('SET_MESSAGE',payload)
+                }
+            }
+        },
+        Refresh:{
+            namespaced:true,
+            state:{
+                times:0
+            },
+            getters:{
+                times:(state)=>state.times
+            },
+    }
+}})
 
 describe("ArticleDetails.vue", () => {
 
@@ -21,7 +60,8 @@ describe("ArticleDetails.vue", () => {
                         id:9999
                     }
                 },
-       
+                localVue,
+                store
         })
 
     })
@@ -42,12 +82,29 @@ describe("ArticleDetails.vue", () => {
     })
     it("Go Back Button Should Call Function GoBack",()=>{
         const GoBackSpy = vi.spyOn(wrapper.vm,'GoBack')
+        expect(GoBackSpy).toHaveBeenCalledTimes(0)
         wrapper.get('[class="button Go-Back"]').trigger('click')
         expect(GoBackSpy).toHaveBeenCalledTimes(1)
     })
     it("Go Back Function Should router.push",()=>{
             const Rspy = vi.spyOn(wrapper.vm.$router,'push')
+            expect(Rspy).toHaveBeenCalledTimes(0)
             wrapper.get('[class="button Go-Back"]').trigger('click')
             expect(Rspy).toHaveBeenCalledTimes(1)
+    })
+    it("Should Trigger NotificationMessage Watcher",async ()=>{
+        const Rspy = vi.spyOn(wrapper.vm.$router,'push')
+        expect(Rspy).toHaveBeenCalledTimes(0)
+        wrapper.vm.$options.watch.NotificationMessage.call(wrapper.vm, "Article Deleted Succesfully");
+        await wrapper.vm.$nextTick()
+        expect(Rspy).toHaveBeenCalledTimes(1)
+        
+    })
+    it("Should Trigger Times Watcher",async ()=>{
+        wrapper.vm.$options.watch.Times.call(wrapper.vm);
+        await wrapper.vm.$nextTick()
+        expect(wrapper.emitted().Reset.length).toBe(1)
+        
+        
     })
 })

@@ -4,7 +4,7 @@ import { createLocalVue } from "@vue/test-utils";
 import Buefy from 'buefy'
 import Vuex from 'vuex'
 import API from '../../src/Plugins/API'
-import createWrapper from "../../src/Template/mockFactory/mockFacktory";
+import createWrapper from "../.mockFactory/mockFacktory";
 const localVue = createLocalVue()
 
 localVue.use(Buefy)

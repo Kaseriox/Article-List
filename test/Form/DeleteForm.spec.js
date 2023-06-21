@@ -1,10 +1,10 @@
-import { describe, it, expect, beforeEach,vi } from "vitest";
+import { describe, it, expect, beforeEach,vi, expectTypeOf } from "vitest";
 import DeleteForm from '../../src/components/Form/DeleteForm.vue'
 import { createLocalVue } from "@vue/test-utils";
 import Buefy from 'buefy'
 import Vuex from 'vuex'
 import API from '../../src/Plugins/API'
-import createWrapper from "../../src/Template/mockFactory/mockFacktory";
+import createWrapper from "../.mockFactory/mockFacktory";
 const localVue = createLocalVue()
 
 localVue.use(Buefy)
@@ -74,13 +74,20 @@ describe("CreateForm.vue", () => {
 
     it("Should Call DeleteArticle Function Upon Confirming Deletion",async()=>{
         const DeleteArticleSpy = vi.spyOn(wrapper.vm,'DeleteArticle')
+        expect(DeleteArticleSpy).toHaveBeenCalledTimes(0)
         await wrapper.find('[class="button Yes-Button is-primary"]').trigger('click')
         expect(DeleteArticleSpy).toHaveBeenCalledTimes(1)
     })
     it("DeleteArticle Function Should Call $DeleteArticle Method",async ()=>{
         const spy = vi.spyOn(wrapper.vm,'$DeleteArticle')
+        expect(spy).toHaveBeenCalledTimes(0)
         await wrapper.find('[class="button Yes-Button is-primary"]').trigger('click')
         expect(spy).toHaveBeenCalledTimes(1)
     })
-      
+    it("Should Display Message That Article Was Succesfully Delete",async ()=>{
+        expect(store.state.Notification.message).toBe('')
+        await wrapper.find('[class="button Yes-Button is-primary"]').trigger('click')
+        await wrapper.vm.$nextTick()
+        expect(store.state.Notification.message).toBe('Article Deleted Succesfully')
+    }) 
 })
