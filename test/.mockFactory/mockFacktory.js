@@ -85,6 +85,11 @@ function createWrapper(page, overrides) {
             {
                 push:()=>true
             },
+            $route:{
+                params:{
+                    id:1
+                }
+            }
         },
         stubs: {
             "router-link":true

@@ -31,10 +31,6 @@ export default {
         
         if(response.length === 0 && this.Search === '')
         {
-          if(response.headers["x-total-count"] !== 0)
-          {
-            this.previous_page()
-          }
           this.set_message('No New Articles')
           return
         }

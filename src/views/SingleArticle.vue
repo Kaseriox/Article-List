@@ -13,7 +13,7 @@ export default {
   components: { ArticleDetails },
   data() {
     return {
-      id: this.$route.params.id,
+      id: this.$route.params.id ,
       Article: undefined,
     };
   },

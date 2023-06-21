@@ -42,6 +42,18 @@ const store = new Vuex.Store({
             getters:{
                 times:(state)=>state.times
             },
+            mutations:{
+                INCREASE(state)
+                {
+                    state.times += 1
+                }
+            },
+            actions:{
+                increase({commit})
+                {
+                    commit('INCREASE')
+                }
+            }
     }
 }})
 
@@ -95,13 +107,13 @@ describe("ArticleDetails.vue", () => {
     it("Should Trigger NotificationMessage Watcher",async ()=>{
         const Rspy = vi.spyOn(wrapper.vm.$router,'push')
         expect(Rspy).toHaveBeenCalledTimes(0)
-        wrapper.vm.$options.watch.NotificationMessage.call(wrapper.vm, "Article Deleted Succesfully");
+        await store.dispatch('Notification/set_message',"Article Deleted Succesfully")
         await wrapper.vm.$nextTick()
         expect(Rspy).toHaveBeenCalledTimes(1)
         
     })
     it("Should Trigger Times Watcher",async ()=>{
-        wrapper.vm.$options.watch.Times.call(wrapper.vm);
+        await store.dispatch('Refresh/increase')
         await wrapper.vm.$nextTick()
         expect(wrapper.emitted().Reset.length).toBe(1)
         

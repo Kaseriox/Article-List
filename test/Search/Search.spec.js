@@ -12,10 +12,9 @@ localVue.use(Vuex)
 localVue.use(API)
 
 describe("CreateForm.vue", () => {
-
+    vi.useFakeTimers()
     let wrapper
     let store
-    const SearchSpy = vi.spyOn(Search.methods,'Searching')
     beforeEach(()=>{
         store = new Vuex.Store({
             modules:{
@@ -31,9 +30,8 @@ describe("CreateForm.vue", () => {
                         },
                     },
                     actions:{
-                        search:({commit,dispatch},payload)=>
+                        search:({commit},payload)=>
                         {
-                            dispatch('Paging/reset_page',null,{root:true})
                             commit('SEARCH',payload)
                         },
                     }
@@ -47,17 +45,31 @@ describe("CreateForm.vue", () => {
 
     })
     
-    it("Should Call Function Searching On Input",async ()=>{
+    it("Should Call Search Function Of Search Module On Input",async ()=>{
+        const SearchSpy = vi.spyOn(wrapper.vm,'search')
         expect(SearchSpy).toHaveBeenCalledTimes(0)
         const input = await wrapper.find('[class="input"]')
-        await input.setValue('test')
+        await input.setValue('V')
+        vi.advanceTimersByTime(1000)
         expect(SearchSpy).toHaveBeenCalledTimes(1)
-        console.log(wrapper.vm.$store.state.Search.Search)
-
-
     })
 
+    it("Should Call Search Function On Input",async ()=>{
+        const SearchSpy = vi.spyOn(wrapper.vm,'Search')
+        expect(SearchSpy).toHaveBeenCalledTimes(0)
+        const input = await wrapper.find('[class="input"]')
+        await input.setValue('V')
+        vi.advanceTimersByTime(1000)
+        expect(SearchSpy).toHaveBeenCalledTimes(1)
+    })
    
-
+    it("Should Call Search Function With Proper Input Arguments",async ()=>{
+        const SearchSpy = vi.spyOn(wrapper.vm,'Search')
+        expect(SearchSpy).toHaveBeenCalledTimes(0)
+        const input = await wrapper.find('[class="input"]')
+        await input.setValue('V')
+        vi.advanceTimersByTime(1000)
+        expect(SearchSpy).toHaveBeenCalledWith('V')
+    })
 
 })

@@ -51,10 +51,10 @@ describe("CreateForm.vue", () => {
 
     })
     
-    it("Test Notification Message",()=>{
+    it("Test Notification Message",async ()=>{
         expect(wrapper.text()).toContain('')
-        store.state.Notification.message = "Testing Notification"
-        expect(wrapper.text()).toContain('')
+        await wrapper.vm.set_message('Testing')
+        expect(wrapper.text()).toContain("Testing")
     })
 
    

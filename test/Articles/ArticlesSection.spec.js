@@ -43,11 +43,23 @@ const store = new Vuex.Store({
             getters:{
                 times:(state)=>state.times
             },
+            mutations:{
+                INCREASE(state)
+                {
+                    state.times += 1
+                }
+            },
+            actions:{
+                increase({commit})
+                {
+                    commit('INCREASE')
+                }
+            }
         },
     Paging:{
             namespaced:true,
         state:{
-            CurrentPage:1,
+            CurrentPage:5,
             ArticleCount:1,
         },
         getters:{
@@ -105,6 +117,18 @@ const store = new Vuex.Store({
                     return state.SearchQuery
                 }
             },
+            mutations:{
+                SEARCH:(state,payload)=>
+                {
+                    state.SearchQuery = payload
+                },
+            },
+            actions:{
+                search:({commit},payload)=>
+                {
+                    commit('SEARCH',payload)
+                },
+            }
     }
 }})
 
@@ -114,7 +138,7 @@ const store = new Vuex.Store({
     let CreatedSpy
     beforeEach( ()=>{
         CreatedSpy = vi.spyOn(ArticlesSection.methods,'GetArticleData')
-        wrapper = createWrapper(ArticlesSection)
+        wrapper = createWrapper(ArticlesSection,{localVue,store})
   
     })
    
@@ -130,12 +154,29 @@ const store = new Vuex.Store({
     })
     it("CurrentPage Watcher Should Work Correctly ",async ()=>
     {
-        console.log(store.state.Paging.CurrentPage)
         const GetArticlesDataSpy  = vi.spyOn(wrapper.vm,'GetArticleData')
         expect(GetArticlesDataSpy).toHaveBeenCalledTimes(0)
         await store.dispatch('Paging/next_page')
         await wrapper.vm.$nextTick()
-        console.log(store.state.Paging.CurrentPage)
-        expect(GetArticlesDataSpy).toHaveBeenCalledTimes(0)
+        expect(GetArticlesDataSpy).toHaveBeenCalledTimes(1)
     })
+
+    it("Search Watcher Should Work Correctly ",async ()=>
+    {
+        const GetArticlesDataSpy  = vi.spyOn(wrapper.vm,'GetArticleData')
+        expect(GetArticlesDataSpy).toHaveBeenCalledTimes(0)
+        await store.dispatch('Search/search', "test")
+        await wrapper.vm.$nextTick()
+        expect(GetArticlesDataSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it("Times Watcher Should Work Correctly ",async ()=>
+    {
+        const GetArticlesDataSpy  = vi.spyOn(wrapper.vm,'GetArticleData')
+        expect(GetArticlesDataSpy).toHaveBeenCalledTimes(0)
+        await store.dispatch('Refresh/increase')
+        await wrapper.vm.$nextTick()
+        expect(GetArticlesDataSpy).toHaveBeenCalledTimes(1)
+    })
+
 })
