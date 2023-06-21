@@ -1,50 +1,27 @@
 import { createLocalVue,mount} from '@vue/test-utils'
+
 import Store from '../../store/store'
 import Buefy from 'buefy'
 import Vuex from 'vuex'
 import API from '../../Plugins/API'
-import VueRouter from "vue-router";
+
+var _ = require('lodash')
 
 
 
 
 
-export function isObject(item) {
-    return (item && typeof item === 'object' && !Array.isArray(item))
-}
 
-
-export function mergeDeep(target, ...sources) {
-    if (!sources.length) return target
-    const source = sources.shift()
-
-    if (isObject(target) && isObject(source)) {
-        for (const key in source) {
-            if (isObject(source[key])) {
-                if (!target[key]) Object.assign(target, { [key]: {} })
-                mergeDeep(target[key], source[key])
-            } else {
-                Object.assign(target, { [key]: source[key] })
-            }
-        }
-    }
-
-    return mergeDeep(target, ...sources)
-}
 
 
 function createWrapper(page, overrides) {
 
 
-
     const localVue = createLocalVue()
-
-    localVue.use(VueRouter)
     localVue.use(Buefy)
     localVue.use(Vuex)
     localVue.use(API)
     const store = new Vuex.Store(Store)
-
     const defaultMountingOptions = {
         localVue,
         store,
@@ -56,10 +33,54 @@ function createWrapper(page, overrides) {
                 put: () => Promise.resolve({}),
                 post: () => Promise.resolve({}),
             },
+            $GetArticles() {
+                return new Promise(resolve => resolve({
+                    data:[
+                        {id:555,
+                        title:"testing this",
+                        author:{
+                            name:'tester'
+                        },
+                        created_at:"6/14/2023, 6:29:00 PM",
+                        updated_at:"6/14/2023, 6:29:00 PM"},
+                    ],
+                    headers:{
+                        "x-total-count":1
+                    }
+                }))
+            },
+            $GetAuthors()
+            {
+                return  new Promise(resolve=>resolve({
+                    data:[
+                        {
+                          "name": "David Roberts",
+                          "created_at": "2023-06-07T16:27:33.163Z",
+                          "id": 1,
+                          "updated_at": "2023-06-16T09:59:53.580Z"
+                        },
+                        {
+                          "name": "Emily Thompson",
+                          "created_at": "2023-06-07T16:29:58.331Z",
+                          "id": 2,
+                          "updated_at": "2023-06-16T10:09:14.458Z"
+                        },
+                    ]
+                }))
+         
+            },
+            $CreateArticle()
+            {
+                return  Promise.resolve({statusText:'Created'})
+            },
+            $DeleteArticle()
+            {
+                return   Promise.resolve({statusText:'Deleted'})
+            },
             $router:
             {
-                push:vi.fn()
-            }
+                push:()=>true
+            },
         },
         stubs: {
             "router-link":true
@@ -70,10 +91,9 @@ function createWrapper(page, overrides) {
     }
     return mount(
         page,
-        mergeDeep(
-            defaultMountingOptions,
-            overrides
-        )
+        _.merge(defaultMountingOptions,overrides)
+        
+        
     )
 }
 

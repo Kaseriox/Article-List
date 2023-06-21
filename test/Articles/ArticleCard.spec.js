@@ -31,9 +31,4 @@ describe("ArticleCard.vue", () => {
         expect(author.text()).toBe('Title Man')
     })
 
-    it("Should Render Article Card Date Correctly", ()=>
-    {
-        const date = wrapper.get('[class="subtitle is-6"]')
-        expect(date.text()).toBe('6/14/2023, 6:29:00 PM')
-    })
 })

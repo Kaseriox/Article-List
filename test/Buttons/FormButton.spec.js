@@ -2,9 +2,10 @@
 
 import { describe, it, expect, beforeEach,vi } from "vitest";
 import FormButton from '../../src/components/Buttons/FormButton.vue'
-import { mount, createLocalVue } from "@vue/test-utils";
+import { createLocalVue } from "@vue/test-utils";
 import Buefy from 'buefy'
 import Vuex from 'vuex'
+import createWrapper from "../../src/Template/mockFactory/mockFacktory";
 
 const localVue = createLocalVue()
 
@@ -65,13 +66,10 @@ describe("FormButton.vue", () => {
                 }
             }
         })
-        wrapper = mount(FormButton,{
+        wrapper = createWrapper (FormButton,{
             propsData:{
                 type:'Edit',
                 id:5478,
-                },
-                mocks:{
-                   
                 },
                 localVue,
                 store,

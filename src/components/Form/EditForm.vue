@@ -20,6 +20,7 @@
 
 			<footer class="modal-card-foot">
 				<b-button
+				class="Close-Button"
 				label="Close"
 				@click="Close" />
 				<b-button 

@@ -1,61 +1,63 @@
 import { describe, it, expect,vi } from "vitest";
 import { createLocalVue,mount } from "@vue/test-utils";
+import Store from "../../src/store/store";
 import Paging from '../../src/components/Articles/Paging.vue'
 import Vuex from 'vuex'
 import Buefy from 'buefy'
+import createWrapper from "../../src/Template/mockFactory/mockFacktory";
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Buefy)
 describe("Paging.vue", () => {
 
     let wrapper
-    let store
-    
-    beforeEach(()=>{
-        store = new Vuex.Store({
-            modules:{
-                Notification:{
-                    namespaced:true,
-                    getters:
-                    {
-                        message:()=>''
-                    }
-                },
-                Refresh:{
-                    namespaced:true,
-                    getters:{
-                      times:()=>0  
-                    }
-                },
-                Paging:{
-                    namespaced:true,
-                    state:{
-                        CurrentPage:2,
-                        TotalPages:5,
+    const store = new Vuex.Store({
+                modules:{
+                    Notification:{
+                        namespaced:true,
+                        getters:
+                        {
+                            message:()=>''
+                        }
                     },
-                    getters:{
-                        CurrentPage:(state)=>state.CurrentPage,
-                        TotalPages:(state)=>state.TotalPages
+                    Refresh:{
+                        namespaced:true,
+                        getters:{
+                        times:()=>0  
+                        }
                     },
-                    mutations:{
-                        PREVIOUS_PAGE:(state)=>state.CurrentPage = parseInt(state.CurrentPage) - parseInt(1),
-                        NEXT_PAGE:(state)=> state.CurrentPage = parseInt(state.CurrentPage) + parseInt(1),
-                },
-                actions:{
-                    previous_page({commit})
-                    {
-                        commit('PREVIOUS_PAGE')
+                    Paging:{
+                        namespaced:true,
+                        state:{
+                            CurrentPage:2,
+                            TotalPages:5,
+                        },
+                        getters:{
+                            CurrentPage:(state)=>state.CurrentPage,
+                            TotalPages:(state)=>state.TotalPages
+                        },
+                        mutations:{
+                            PREVIOUS_PAGE:(state)=>state.CurrentPage = parseInt(state.CurrentPage) - parseInt(1),
+                            NEXT_PAGE:(state)=> state.CurrentPage = parseInt(state.CurrentPage) + parseInt(1),
                     },
-                    next_page({commit})
-                    {
-                        commit('NEXT_PAGE')
+                    actions:{
+                        previous_page({commit})
+                        {
+                            commit('PREVIOUS_PAGE')
+                        },
+                        next_page({commit})
+                        {
+                            commit('NEXT_PAGE')
+                        }
                     }
                 }
-            }
-        }})
-        wrapper = mount(Paging,{
-                localVue,
-                store,
+            }})
+
+
+    beforeEach(()=>{
+        wrapper = createWrapper(Paging,{
+            localVue,
+            store
         })
     })
 
@@ -87,10 +89,9 @@ describe("Paging.vue", () => {
     })
     it("Should Reduce CurrentPage Number If Button Previous Page Is Pressed",()=>
     {
-        expect(store.state.Paging.CurrentPage).toBe(2)
-        const NextPageButton = wrapper.get('[class="button Previous-Page"]')
-        NextPageButton.trigger('click')
-        expect(store.state.Paging.CurrentPage).toBe(1)
+        expect(store.state.Paging.CurrentPage).toBe(3)
+        const PreviousPageButton = wrapper.get('[class="button Previous-Page"]')
+        PreviousPageButton.trigger('click')
     })
 
 

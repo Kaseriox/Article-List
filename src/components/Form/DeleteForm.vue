@@ -12,9 +12,11 @@
 
 			<footer class="modal-card-foot">
 				<b-button
+                class="No-Button"
 				label="Cancel"
 				@click="HandleForm('No')" />
 				<b-button 
+                class="Yes-Button"
 				label="Delete Article"
 				type="is-primary"
 				@click="HandleForm('Yes')"
