@@ -8,10 +8,8 @@ import createWrapper from "../.mockFactory/mockFacktory";
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Buefy)
-describe("Paging.vue", () => {
 
-    let wrapper
-    const store = new Vuex.Store({
+const store = new Vuex.Store({
                 modules:{
                     Notification:{
                         namespaced:true,
@@ -29,12 +27,23 @@ describe("Paging.vue", () => {
                     Paging:{
                         namespaced:true,
                         state:{
-                            CurrentPage:2,
-                            TotalPages:5,
+                            CurrentPage:1,
+                            ArticleCount:10,
                         },
                         getters:{
-                            CurrentPage:(state)=>state.CurrentPage,
-                            TotalPages:(state)=>state.TotalPages
+
+                        
+                        CurrentPage: (state) =>{
+            
+                            return state.CurrentPage
+                          },
+                          ArticleCount:(state)=>{
+                            return state.ArticleCount
+                          },
+                          TotalPages:(state)=>
+                          {
+                              return Math.ceil(state.ArticleCount / ARTICLES_PER_PAGE);
+                          },
                         },
                         mutations:{
                             PREVIOUS_PAGE:(state)=>state.CurrentPage = parseInt(state.CurrentPage) - parseInt(1),
@@ -53,6 +62,9 @@ describe("Paging.vue", () => {
                 }
             }})
 
+describe("Paging.vue", () => {
+
+    let wrapper
 
     beforeEach(()=>{
         wrapper = createWrapper(Paging,{
@@ -75,24 +87,51 @@ describe("Paging.vue", () => {
          wrapper.get('[class="button Next-Page"]').trigger('click')
         expect(NextPageFunction).toHaveBeenCalledOnce()
     })
-    it("Should Call previous_page Function When Next Page Button Is Pressed",  () => {
+    it("Should Call previous_page Function When Next Page Button Is Pressed", async () => {
         const PreviousPageFunction = vi.spyOn(wrapper.vm,'previous_page')
-         wrapper.get('[class="button Previous-Page"]').trigger('click')
+         await wrapper.get('[class="button Previous-Page"]').trigger('click')
         expect(PreviousPageFunction).toHaveBeenCalledOnce()
     })
-    it("Should Increment CurrentPage Number If Button Next Page Is Pressed",()=>
+    it("Should Increment CurrentPage Number If Button Next Page Is Pressed",async ()=>
+    {
+        expect(store.state.Paging.CurrentPage).toBe(1)
+        const NextPageButton = await wrapper.get('[class="button Next-Page"]')
+        await NextPageButton.trigger('click')
+        expect(store.state.Paging.CurrentPage).toBe(2)
+    })
+    it("Should Reduce CurrentPage Number If Button Previous Page Is Pressed",async ()=>
     {
         expect(store.state.Paging.CurrentPage).toBe(2)
-        const NextPageButton = wrapper.get('[class="button Next-Page"]')
-        NextPageButton.trigger('click')
-        expect(store.state.Paging.CurrentPage).toBe(3)
+        const PreviousPageButton = await wrapper.get('[class="button Previous-Page"]')
+        await PreviousPageButton.trigger('click')
+        expect(store.state.Paging.CurrentPage).toBe(1)
     })
-    it("Should Reduce CurrentPage Number If Button Previous Page Is Pressed",()=>
+    it("Previous Page Button Should Be Disabled If Current Page Is 1",async ()=>
     {
-        expect(store.state.Paging.CurrentPage).toBe(3)
-        const PreviousPageButton = wrapper.get('[class="button Previous-Page"]')
-        PreviousPageButton.trigger('click')
+        expect(store.state.Paging.CurrentPage).toBe(1)
+        const PreviousPageButton = await wrapper.get('[class="button Previous-Page"]')
+        const NextPageButton = await wrapper.get('[class="button Next-Page"]')
+        await PreviousPageButton.trigger('click')
+        expect(store.state.Paging.CurrentPage).toBe(1)
+        expect(PreviousPageButton.element.disabled).toBe(true)
+        await NextPageButton.trigger('click')
+        expect(store.state.Paging.CurrentPage).toBe(2)
+        expect(PreviousPageButton.element.disabled).toBe(false)
     })
-
-
+    it("Next Page Button Should Be Disabled If Current Page Is The Last Page",async ()=>
+    {
+        expect(store.state.Paging.CurrentPage).toBe(2)
+        const PreviousPageButton = await wrapper.get('[class="button Previous-Page"]')
+        const NextPageButton = await wrapper.get('[class="button Next-Page"]')
+        await NextPageButton.trigger('click')
+        expect(store.state.Paging.CurrentPage).toBe(3)
+        await NextPageButton.trigger('click')
+        expect(NextPageButton.element.disabled).toBe(true)
+        expect(store.state.Paging.CurrentPage).toBe(4)
+        await NextPageButton.trigger('click')
+        expect(store.state.Paging.CurrentPage).toBe(4)
+        await PreviousPageButton.trigger('click')
+        expect(store.state.Paging.CurrentPage).toBe(3)
+        expect(NextPageButton.element.disabled).toBe(false)
+    })
 })

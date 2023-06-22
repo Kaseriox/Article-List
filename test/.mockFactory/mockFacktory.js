@@ -1,5 +1,4 @@
 import { createLocalVue,mount} from '@vue/test-utils'
-
 import Store from '../../src/store/store'
 import Buefy from 'buefy'
 import Vuex from 'vuex'
@@ -7,15 +6,7 @@ import API from '../../src/Plugins/API'
 
 var _ = require('lodash')
 
-
-
-
-
-
-
-
 function createWrapper(page, overrides) {
-
 
     const localVue = createLocalVue()
     localVue.use(Buefy)
@@ -71,7 +62,7 @@ function createWrapper(page, overrides) {
             },
             $CreateArticle()
             {
-                return  Promise.resolve({statusText:'Created'})
+               return  Promise.resolve({statusText:'Created'})
             },
             $DeleteArticle()
             {

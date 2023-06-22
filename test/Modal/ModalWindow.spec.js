@@ -11,7 +11,7 @@ localVue.use(Buefy)
 localVue.use(Vuex)
 localVue.use(API)
 
-describe("CreateForm.vue", () => {
+describe("ModalWindow.vue", () => {
 
     let wrapper
     let store

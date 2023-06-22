@@ -1,6 +1,6 @@
 <template>
   <div class="columns is-multiline is-mobile" v-if="Articles">
-    <div class="column is-one-quarter" v-for="Article in Articles">
+    <div class="column is-one-quarter" v-for="Article in Articles" :key="Article.id">
         <ArticleCard :ArticleData="ArticleProp(Article)"></ArticleCard>
     </div>
   </div>

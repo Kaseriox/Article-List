@@ -59,7 +59,7 @@ describe("CreateForm.vue", () => {
 
     })
    
-    it("Should Correcly Close Form ", async ()=>{
+    it("Should Close Form Upon Pressing Close Button", async ()=>{
         expect(store.state.Modal.Open).toBe(true)
         await wrapper.find('[class="button Close-Button"]').trigger('click')
         expect(store.state.Modal.Open).toBe(false)
@@ -67,9 +67,7 @@ describe("CreateForm.vue", () => {
     it("Should Call GetAuthors Function On Create",()=>
     {
         expect(GetAuthorsSpy).toHaveBeenCalledTimes(1)
-    })
-
-    it("Should Fetch Authors Data Correctly",()=>{
+        expect(wrapper.vm.$data.Authors).toBeTruthy()
         expect(wrapper.vm.$data.Authors).toStrictEqual([
             {
               "name": "David Roberts",
@@ -85,7 +83,6 @@ describe("CreateForm.vue", () => {
             },
         ])
     })
-
 
     it("Should Validate Form When Trying To Create New Article", async ()=>{
         const ValidationSpy = vi.spyOn(wrapper.vm,'ValidateForm')
@@ -145,8 +142,50 @@ describe("CreateForm.vue", () => {
         await wrapper.vm.$nextTick()
         expect(store.state.Notification.message).toBe("Article Created Succesfully")
         expect(CreateArticleSpy).toHaveBeenCalledTimes(1)
-        
-        
     })
 
+    it("If Article Couldn't Be Created It Should Display Appropriate Message",async ()=>
+    {
+        wrapper = createWrapper(CreateForm,{
+            localVue,
+            store,
+            mocks:{
+                $CreateArticle()
+                {
+                    return null
+                },
+            }
+    })
+        const CreateArticleSpy = vi.spyOn(wrapper.vm,'$CreateArticle')
+        expect(CreateArticleSpy).toHaveBeenCalledTimes(0)
+        expect(store.state.Notification.message).toBe('')
+        await wrapper.setData({FormInput:{
+            title:'title',
+            authorId:2,
+            content:'testtt',
+            }})
+        await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
+        await wrapper.vm.$nextTick()
+        expect(store.state.Notification.message).toBe("Could Not Create Article")
+        expect(CreateArticleSpy).toHaveBeenCalledTimes(1)
+    })
+
+
+    it("If Authors Couldn't Be Received From Database It should Display Appropriate Message",async ()=>
+    {
+        
+        wrapper = createWrapper(CreateForm,{
+            localVue,
+            store,
+            mocks:{
+                $GetAuthors()
+                {
+                    return null
+                },
+            }
+        })
+        expect(store.state.Notification.message).toBe('')
+        await wrapper.vm.$nextTick()
+        expect(store.state.Notification.message).toBe('Could Not Get Authors')
+    })
 })

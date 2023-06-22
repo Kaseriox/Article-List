@@ -8,35 +8,35 @@ import createWrapper from "../.mockFactory/mockFacktory";
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Buefy)
-describe("Paging.vue", () => {
-    const GetArticleSpy = vi.spyOn(SingleArticle.methods,'GetArticle')
-    let wrapper
-    const store = new Vuex.Store({
-                modules:{
-                    Notification:{
-                        namespaced:true,
-                        state:{
-                            message:''
-                        },
-                        getters:
-                        {
-                            message:(state)=>state.message
-                        },
-                        mutations:{
-                            SET_MESSAGE(state,payload)
-                            {
-                                state.message = payload
-                            }
-                        },
-                        actions:{
-                            set_message({commit,dispatch},payload)
-                            {
-                                commit('SET_MESSAGE',payload)
-                            }
-                        }
-                    },
+   const store = new Vuex.Store({
+    modules:{
+        Notification:{
+            namespaced:true,
+            state:{
+                message:''
+            },
+            getters:
+            {
+                message:(state)=>state.message
+            },
+            mutations:{
+                SET_MESSAGE(state,payload)
+                {
+                    state.message = payload
+                }
+            },
+            actions:{
+                set_message({commit,dispatch},payload)
+                {
+                    commit('SET_MESSAGE',payload)
+                }
+            }
+        },
 }})
 
+describe("SingleArticle.vue", () => {
+    const GetArticleSpy = vi.spyOn(SingleArticle.methods,'GetArticle')
+    let wrapper
 
     beforeEach(()=>{
         
@@ -53,7 +53,7 @@ describe("Paging.vue", () => {
 
     
    
-    it("Should Call GetArticles Plugin Function Correctly On GetArticle Function Call",async () => {
+    it("Should Call GetArticles Plugin Function When GetArticle Function Is Called",async () => {
         const PluginSpy = vi.spyOn(wrapper.vm,'$GetArticles')
         expect(PluginSpy).toBeCalledTimes(0)
         await wrapper.vm.GetArticle()

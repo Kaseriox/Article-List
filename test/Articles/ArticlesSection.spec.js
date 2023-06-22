@@ -4,7 +4,6 @@ import ArticlesSection from '../../src/components/Articles/ArticlesSection.vue'
 import createWrapper from "../.mockFactory/mockFacktory";
 import Vuex from 'vuex'
 import Buefy from 'buefy'
-describe("ArticlesSection.vue", () => {
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -133,6 +132,7 @@ const store = new Vuex.Store({
 }})
 
 
+describe("ArticlesSection.vue", () => {
 
     let wrapper
     let CreatedSpy
@@ -141,9 +141,18 @@ const store = new Vuex.Store({
         wrapper = createWrapper(ArticlesSection,{localVue,store})
   
     })
+
    
-    it("Created Lifecycle Hook Should Call GetArticleData Method Correctly", ()=>{
+    it("Created Lifecycle Hook Should Call GetArticleData Method ", ()=>{
         expect(CreatedSpy).toHaveBeenCalledTimes(1)
+        expect(wrapper.vm.$data.Articles).toBeTruthy()
+    })
+    it("Articles Should Only Be Rendered If Articles Variable Is Populated",async ()=>{
+        const ArticlesDiv = wrapper.get('[class="columns is-multiline is-mobile"]')
+        expect(ArticlesDiv.isEmpty()).toBe(false)
+        wrapper.vm.$data.Articles = undefined
+        await wrapper.vm.$nextTick()
+        expect(ArticlesDiv.isEmpty()).toBe(true)
     })
     it("$GetArticles Plugin Should Be Called ",async ()=>
     {

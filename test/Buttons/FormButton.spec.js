@@ -85,48 +85,42 @@ describe("FormButton.vue", () => {
     {
         expect(wrapper.props().id).toBe(5478)
     })
-    it("Button Click Should Correctly Call Function HandleClick",async()=>{
+    it("Button Click Should Call Function HandleClick",async()=>{
         const Bspy = vi.spyOn(wrapper.vm,'HandleClick')
         await wrapper.find('button').trigger('click')
         expect(Bspy).toHaveBeenCalledOnce()
     })
-    it("Component Function Should Be Correctly Called",async ()=>
+    it("Component Function Should Be Called Upon Pressing The Button",async ()=>
     {
         const Cspy = vi.spyOn(wrapper.vm,'Component')
         await wrapper.find('button').trigger('click')
         expect(Cspy).toHaveBeenCalledOnce()
     })
-    it("Set_Component Action Of Module Modal Should Be Correctly Called After Button Click",async ()=>
+    it("Set_Component Action Of Module Modal Should Be Called After Button Click",async ()=>
     {
         const MSspy = vi.spyOn(wrapper.vm,'set_component')
         await wrapper.find('button').trigger('click')
         expect(MSspy).toHaveBeenCalledOnce()
     })
-    it("Open Action Of Module Modal Should Be Correctly Called After Button Click",async ()=>
+    it("Open Action Of Module Modal Should Be Called After Button Click",async ()=>
     {
         const Ospy = vi.spyOn(wrapper.vm,'open')
         await wrapper.find('button').trigger('click')
         expect(Ospy).toHaveBeenCalledOnce()
     })
-    it("Open Action Of Module Modal Should Be Correctly Called After Button Click",async ()=>
-    {
-        const Ospy = vi.spyOn(wrapper.vm,'open')
-        await wrapper.find('button').trigger('click')
-        expect(Ospy).toHaveBeenCalledOnce()
-    })
-    it("Open Action Of Module Modal Should Be Correctly Working",async ()=>
+    it("Open Action Of Module Modal Should Be Working",async ()=>
     {
         expect(store.state.Modal.Open).toBe(false)
         await wrapper.find('button').trigger('click')
         expect(store.state.Modal.Open).toBe(true)
     })
-    it("Set_Component Action Of Module Modal Should Be Correctly Working When Type Is Edit",async ()=>
+    it("Set_Component Action Of Module Modal Should Be Working When Type Is Edit",async ()=>
     {
         expect(store.state.Modal.Component).toBe(undefined)
         await wrapper.find('button').trigger('click')
         expect(store.state.Modal.Component.name).toBe('EditForm')
     })
-    it("Set_Component Action Of Module Modal Should Be Correctly Working When Type Is Create",async ()=>
+    it("Set_Component Action Of Module Modal Should Be Working When Type Is Create",async ()=>
     {
         wrapper = createWrapper (FormButton,{
             propsData:{
@@ -140,7 +134,7 @@ describe("FormButton.vue", () => {
         await wrapper.find('button').trigger('click')
         expect(store.state.Modal.Component.name).toBe('CreateForm')
     })
-    it("Set_Component Action Of Module Modal Should Be Correctly Working When Type Is Delete",async ()=>
+    it("Set_Component Action Of Module Modal Should Be Working When Type Is Delete",async ()=>
     {
         wrapper = createWrapper (FormButton,{
             propsData:{
@@ -154,7 +148,8 @@ describe("FormButton.vue", () => {
         await wrapper.find('button').trigger('click')
         expect(store.state.Modal.Component.name).toBe('DeleteForm')
     })
-    it("Set_Form Action Of Module Form Should Be Correctly Working",async ()=>
+
+    it("Set_Form Action Of Module Form Should Be  Working",async ()=>
     {
         expect(store.state.Form.id).toBe(0)
         await wrapper.find('button').trigger('click')

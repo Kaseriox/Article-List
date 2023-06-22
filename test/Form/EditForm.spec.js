@@ -11,7 +11,7 @@ localVue.use(Buefy)
 localVue.use(Vuex)
 localVue.use(API)
 
-describe("CreateForm.vue", () => {
+describe("EditForm.vue", () => {
 
     const GetArticleDataSpy = vi.spyOn(EditForm.methods,'GetArticleData')
     let wrapper
@@ -80,7 +80,7 @@ describe("CreateForm.vue", () => {
         ])
     })
 
-    it("Should Correctly Close Form",async ()=>{
+    it("Should Close Form Upon Pressing Close Button",async ()=>{
         expect(store.state.Modal.Open).toBe(true)
         await wrapper.find('[class="button Close-Button"]').trigger('click')
         expect(store.state.Modal.Open).toBe(false)
@@ -103,7 +103,7 @@ describe("CreateForm.vue", () => {
             title:'ssss',
             content:'',
             }})
-        wrapper.find('[class="button is-primary"]').trigger('click')
+        await wrapper.find('[class="button is-primary"]').trigger('click')
         expect(store.state.Notification.message).toBe('Content Too Short')
         store.state.Notification.message = ''
     })
@@ -120,5 +120,53 @@ describe("CreateForm.vue", () => {
         store.state.Notification.message = ''
     })
 
+    it("If Article Couldn't Be Updated It Should Show Appropriate Message", async ()=>{
 
+        wrapper = createWrapper(EditForm,{
+            localVue,
+            store,
+            mocks:{
+                $UpdateArticle()
+                {
+                    return null
+                }
+            }
+        })
+        await wrapper.vm.$nextTick()
+        expect(store.state.Notification.message).toBe('')
+        await wrapper.setData({ArticleData:{
+            title:'ssss',
+            content:'ssss',
+            }})
+        await wrapper.find('[class="button is-primary"]').trigger('click')
+        await wrapper.vm.$nextTick()
+        expect(store.state.Notification.message).toBe("Failed To Update Article")
+    })
+
+
+    it("If It Couldn't Retrieve Specific Article Data For Editing It should Display Appropriate Message", async ()=>{
+
+        wrapper = createWrapper(EditForm,{
+            localVue,
+            store,
+            mocks:{
+                $GetArticles()
+                {
+                    return null
+                }
+            }
+        })
+        expect(store.state.Notification.message).toBe('')
+        await wrapper.vm.$nextTick()
+        expect(store.state.Notification.message).toBe("Could Not Get Article Data")
+    })
+
+
+    /*it("It Shouldn't Render Edit Section Of The Form If ArticleData Is Undefined", async ()=>{
+        let EditArticleSection =await  wrapper.find('[class="Edit modal-card-body"]')
+        expect(EditArticleSection.isEmpty()).toBe(false)
+        wrapper.vm.$data.ArticleData = undefined
+        await wrapper.vm.$nextTick()
+        expect(EditArticleSection.isEmpty()).toBe(true)
+    })*/
 })

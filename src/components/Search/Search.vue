@@ -23,13 +23,9 @@ export default {
         ...mapActions({
             search:'Search/search'
         }),
-        Search(value)
-        {
-           this.search(value)
-        },
         Searching:debounce(function(e)
         {
-            this.Search(e.target.value)
+            this.search(e.target.value)
         },400)
     }
 };

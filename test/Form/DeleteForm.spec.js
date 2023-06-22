@@ -11,7 +11,7 @@ localVue.use(Buefy)
 localVue.use(Vuex)
 localVue.use(API)
 
-describe("CreateForm.vue", () => {
+describe("Deleteform.vue", () => {
 
     let wrapper
     let store
@@ -66,7 +66,7 @@ describe("CreateForm.vue", () => {
 
     })
     
-    it("Should Close The Form Upon Pressing ",async ()=>{
+    it("Should Close The Form Upon Pressing Cancel",async ()=>{
        expect(store.state.Modal.Open).toBe(true)
        await wrapper.find('[class="button No-Button"]').trigger('click')
        expect(store.state.Modal.Open).toBe(false)
@@ -89,5 +89,24 @@ describe("CreateForm.vue", () => {
         await wrapper.find('[class="button Yes-Button is-primary"]').trigger('click')
         await wrapper.vm.$nextTick()
         expect(store.state.Notification.message).toBe('Article Deleted Succesfully')
+    }) 
+    it("If Article Couldn't Be Deleted It Should Show Appropriate Message",async ()=>{
+
+        
+        wrapper = createWrapper(DeleteForm,{
+            localVue,
+            store,
+            mocks:{
+                $DeleteArticle()
+                {
+                    return null
+                },
+            }
+        })
+ 
+        expect(store.state.Notification.message).toBe('')
+        await wrapper.find('[class="button Yes-Button is-primary"]').trigger('click')
+        await wrapper.vm.$nextTick()
+        expect(store.state.Notification.message).toBe('Could Not Delete Article')
     }) 
 })

@@ -1,10 +1,10 @@
 <template>
-		 <div v-if="ArticleData" class="modal-card" style="width:auto">
+		 <div  class="modal-card" style="width:auto">
 			<header class="modal-card-head">
 				<p class="modal-card-title>">Edit Form</p>
 				
 			</header>
-			<section class="modal-card-body">
+			<section class="Edit modal-card-body" v-if="ArticleData">
 				<b-field label="Title">
 					<b-input
 					type="text"

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="Article">
+    <div v-if="Article" class="ArticleDetails">
         <b-navbar is-light >
             <template #start>
                 <b-navbar-item tag="div">

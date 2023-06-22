@@ -11,7 +11,7 @@ localVue.use(Buefy)
 localVue.use(Vuex)
 localVue.use(API)
 
-describe("CreateForm.vue", () => {
+describe("Search.vue", () => {
     vi.useFakeTimers()
     let wrapper
     let store
@@ -49,27 +49,10 @@ describe("CreateForm.vue", () => {
         const SearchSpy = vi.spyOn(wrapper.vm,'search')
         expect(SearchSpy).toHaveBeenCalledTimes(0)
         const input = await wrapper.find('[class="input"]')
-        await input.setValue('V')
+        await input.setValue('Test')
         vi.advanceTimersByTime(1000)
         expect(SearchSpy).toHaveBeenCalledTimes(1)
-    })
-
-    it("Should Call Search Function On Input",async ()=>{
-        const SearchSpy = vi.spyOn(wrapper.vm,'Search')
-        expect(SearchSpy).toHaveBeenCalledTimes(0)
-        const input = await wrapper.find('[class="input"]')
-        await input.setValue('V')
-        vi.advanceTimersByTime(1000)
-        expect(SearchSpy).toHaveBeenCalledTimes(1)
-    })
-   
-    it("Should Call Search Function With Proper Input Arguments",async ()=>{
-        const SearchSpy = vi.spyOn(wrapper.vm,'Search')
-        expect(SearchSpy).toHaveBeenCalledTimes(0)
-        const input = await wrapper.find('[class="input"]')
-        await input.setValue('V')
-        vi.advanceTimersByTime(1000)
-        expect(SearchSpy).toHaveBeenCalledWith('V')
+        expect(SearchSpy).toBeCalledWith('Test')
     })
 
 })

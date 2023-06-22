@@ -119,6 +119,14 @@
       "created_at": "2023-06-11T19:40:47.958Z",
       "updated_at": "2023-06-17T21:09:11.349Z",
       "id": 155
+    },
+    {
+      "title": "dasdasd",
+      "authorId": 6,
+      "content": "dasdasdasdasd",
+      "created_at": "2023-06-21T14:26:00.412Z",
+      "updated_at": "2023-06-21T14:26:00.412Z",
+      "id": 156
     }
   ]
 }

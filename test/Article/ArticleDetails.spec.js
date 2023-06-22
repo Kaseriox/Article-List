@@ -116,7 +116,15 @@ describe("ArticleDetails.vue", () => {
         await store.dispatch('Refresh/increase')
         await wrapper.vm.$nextTick()
         expect(wrapper.emitted().Reset.length).toBe(1)
+        expect(wrapper.emitted().Reset.length)
         
         
+    })
+    it("There Should Be No Article Details If Article Is Undefined",async ()=>{
+        const ArticleDetails = await wrapper.find('[class="ArticleDetails"]')
+        expect(ArticleDetails.isEmpty()).toBe(false)
+        wrapper.vm._props.Article = undefined
+        await wrapper.vm.$nextTick()
+        expect(ArticleDetails.isEmpty()).toBe(true)
     })
 })
