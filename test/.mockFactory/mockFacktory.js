@@ -12,7 +12,7 @@ function createWrapper(page, overrides) {
     localVue.use(Buefy)
     localVue.use(Vuex)
     localVue.use(API)
-    const store = new Vuex.Store(Store)
+    const store = new Vuex.Store(_.cloneDeep(Store))
     const defaultMountingOptions = {
         localVue,
         store,

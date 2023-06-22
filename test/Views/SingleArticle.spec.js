@@ -1,49 +1,14 @@
 import { describe, it, expect,vi } from "vitest";
-import { createLocalVue } from "@vue/test-utils";
-
 import SingleArticle from '../../src/views/SingleArticle.vue'
-import Vuex from 'vuex'
-import Buefy from 'buefy'
 import createWrapper from "../.mockFactory/mockFacktory";
-const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.use(Buefy)
-   const store = new Vuex.Store({
-    modules:{
-        Notification:{
-            namespaced:true,
-            state:{
-                message:''
-            },
-            getters:
-            {
-                message:(state)=>state.message
-            },
-            mutations:{
-                SET_MESSAGE(state,payload)
-                {
-                    state.message = payload
-                }
-            },
-            actions:{
-                set_message({commit,dispatch},payload)
-                {
-                    commit('SET_MESSAGE',payload)
-                }
-            }
-        },
-}})
+
 
 describe("SingleArticle.vue", () => {
-    const GetArticleSpy = vi.spyOn(SingleArticle.methods,'GetArticle')
     let wrapper
-
+    let GetArticleSpy
     beforeEach(()=>{
-        
-        wrapper = createWrapper(SingleArticle,{
-            localVue,
-            store
-        })
+        GetArticleSpy = vi.spyOn(SingleArticle.methods,'GetArticle')
+        wrapper = createWrapper(SingleArticle)
     })
 
 

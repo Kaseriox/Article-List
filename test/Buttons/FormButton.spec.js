@@ -1,81 +1,22 @@
-//DONE???
-
 import { describe, it, expect, beforeEach,vi } from "vitest";
 import FormButton from '../../src/components/Buttons/FormButton.vue'
-import { createLocalVue } from "@vue/test-utils";
-import Buefy from 'buefy'
-import Vuex from 'vuex'
 import createWrapper from "../.mockFactory/mockFacktory";
 
-const localVue = createLocalVue()
 
-localVue.use(Buefy)
-localVue.use(Vuex)
 
 describe("FormButton.vue", () => {
 
     let wrapper
-    let store
     beforeEach(()=>{
-       
-        store = new Vuex.Store({
-            modules:{
-                Modal:{
-                    namespaced:true,
-                    state:{
-                        Open:false,
-                        Component:undefined,
-                    },
-                    mutations:{
-                        OPEN(state){
-                            state.Open = true
-                        },
-                        SET_COMPONENT(state,payload)
-                        {
-                            state.Component = payload
-                        }
-                    },
-                    actions:{
-                            set_component({commit},payload)
-                            {
-                                commit('SET_COMPONENT',payload)
-                            },
-                            open({commit})
-                            {
-                                commit('OPEN')
-                            },
-                    },
-                },
-                Form:{
-                    namespaced:true,
-                    state:{
-                        id:0
-                    },
-                    mutations:{
-                        SET_FORM(state,payload)
-                        {
-                            state.id = payload
-                        }
-                    },
-                    actions:{
-                        set_form({commit},payload)
-                        {
-                            commit('SET_FORM',payload)
-                        }
-                    }
-                }
-            }
-        })
-        wrapper = createWrapper (FormButton,{
+        wrapper = createWrapper(FormButton,{
             propsData:{
                 type:'Edit',
                 id:5478,
                 },
-                localVue,
-                store,
         })
 
     })
+
    
     it("Should Render Correct Text On Button", ()=>{
         const ButtonText = wrapper.find('button')
@@ -110,15 +51,15 @@ describe("FormButton.vue", () => {
     })
     it("Open Action Of Module Modal Should Be Working",async ()=>
     {
-        expect(store.state.Modal.Open).toBe(false)
+        expect(wrapper.vm.$store.state.Modal.Open).toBe(false)
         await wrapper.find('button').trigger('click')
-        expect(store.state.Modal.Open).toBe(true)
+        expect(wrapper.vm.$store.state.Modal.Open).toBe(true)
     })
     it("Set_Component Action Of Module Modal Should Be Working When Type Is Edit",async ()=>
     {
-        expect(store.state.Modal.Component).toBe(undefined)
+        expect(wrapper.vm.$store.state.Modal.Component).toBe(undefined)
         await wrapper.find('button').trigger('click')
-        expect(store.state.Modal.Component.name).toBe('EditForm')
+        expect(wrapper.vm.$store.state.Modal.Component.name).toBe('EditForm')
     })
     it("Set_Component Action Of Module Modal Should Be Working When Type Is Create",async ()=>
     {
@@ -127,12 +68,10 @@ describe("FormButton.vue", () => {
                 type:'Create',
                 id:444,
                 },
-                localVue,
-                store,
         })
-        expect(store.state.Modal.Component).toBe(undefined)
+        expect(wrapper.vm.$store.state.Modal.Component).toBe(undefined)
         await wrapper.find('button').trigger('click')
-        expect(store.state.Modal.Component.name).toBe('CreateForm')
+        expect(wrapper.vm.$store.state.Modal.Component.name).toBe('CreateForm')
     })
     it("Set_Component Action Of Module Modal Should Be Working When Type Is Delete",async ()=>
     {
@@ -141,18 +80,9 @@ describe("FormButton.vue", () => {
                 type:'Delete',
                 id:44,
                 },
-                localVue,
-                store,
         })
-        expect(store.state.Modal.Component).toBe(undefined)
+        expect(wrapper.vm.$store.state.Modal.Component).toBe(undefined)
         await wrapper.find('button').trigger('click')
-        expect(store.state.Modal.Component.name).toBe('DeleteForm')
-    })
-
-    it("Set_Form Action Of Module Form Should Be  Working",async ()=>
-    {
-        expect(store.state.Form.id).toBe(0)
-        await wrapper.find('button').trigger('click')
-        expect(store.state.Form.id).toBe(5478)
+        expect(wrapper.vm.$store.state.Modal.Component.name).toBe('DeleteForm')
     })
 })

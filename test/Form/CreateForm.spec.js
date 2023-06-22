@@ -1,68 +1,24 @@
 import { describe, it, expect, beforeEach,vi } from "vitest";
 import CreateForm from '../../src/components/Form/CreateForm.vue'
-import { createLocalVue } from "@vue/test-utils";
-import Buefy from 'buefy'
-import Vuex from 'vuex'
-import API from '../../src/Plugins/API'
 import createWrapper from "../.mockFactory/mockFacktory";
-const localVue = createLocalVue()
 
-localVue.use(Buefy)
-localVue.use(Vuex)
-localVue.use(API)
 
 describe("CreateForm.vue", () => {
 
     let wrapper
-    let store
+    
     let GetAuthorsSpy
     beforeEach(()=>{
-        GetAuthorsSpy = vi.spyOn(CreateForm.methods,'GetAuthors')   
-        store = new Vuex.Store({
-            modules:{
-                Modal:{
-                    namespaced:true,
-                    state:{
-                        Open:true
-                    },
-                    mutations:{
-                        CLOSE:(state)=> state.Open = false
-                    },
-                    actions:{
-                            close:({commit})=>commit('CLOSE')
-                    },
-                },
-                Notification:{
-                    namespaced:true,
-                    state:{
-                        message:''
-                    },
-                    mutations:{
-                        SET_MESSAGE(state,payload)
-                        {
-                            state.message = payload
-                        }
-                    },
-                    actions:{
-                        set_message({commit},payload)
-                        {
-                            commit('SET_MESSAGE',payload)
-                        }
-                    }
-                }
-            }
-        })
-        wrapper = createWrapper(CreateForm,{
-                localVue,
-                store
-        })
-
+        GetAuthorsSpy = vi.spyOn(CreateForm.methods,'GetAuthors') 
+        wrapper = createWrapper(CreateForm)
+        wrapper.vm.$store.state.Modal.Open = true
     })
    
     it("Should Close Form Upon Pressing Close Button", async ()=>{
-        expect(store.state.Modal.Open).toBe(true)
+        expect(wrapper.vm.$store.state.Modal.Open).toBe(true)
         await wrapper.find('[class="button Close-Button"]').trigger('click')
-        expect(store.state.Modal.Open).toBe(false)
+        await wrapper.vm.$nextTick()
+        expect(wrapper.vm.$store.state.Modal.Open).toBe(false)
     })
     it("Should Call GetAuthors Function On Create",()=>
     {
@@ -87,34 +43,32 @@ describe("CreateForm.vue", () => {
     it("Should Validate Form When Trying To Create New Article", async ()=>{
         const ValidationSpy = vi.spyOn(wrapper.vm,'ValidateForm')
         expect(ValidationSpy).toHaveBeenCalledTimes(0)
-        expect(store.state.Modal.Open).toBe(true)
+        expect(wrapper.vm.$store.state.Modal.Open).toBe(true)
         await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
         expect(ValidationSpy).toHaveBeenCalledTimes(1)
     })
 
     
     it("Notification Should Pop-Up Saying That Title Is Too Short", async ()=>{
-        expect(store.state.Notification.message).toBe('')
+        expect(wrapper.vm.$store.state.Notification.message).toBe(undefined)
         await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
-        expect(store.state.Notification.message).toBe('Title Too Short')
-        store.state.Notification.message = ''
+        expect(wrapper.vm.$store.state.Notification.message).toBe('Title Too Short')
     })
     
     it("Notification Should Pop-Up Saying That No Author Is Selected", async ()=>{
-        expect(store.state.Notification.message).toBe('')
+        expect(wrapper.vm.$store.state.Notification.message).toBe(undefined)
         await wrapper.setData({FormInput:{
             title:'ss',
             authorId:undefined,
             content:'',
             }})
         await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
-        expect(store.state.Notification.message).toBe('Select An Author')
-        store.state.Notification.message = ''
+        expect(wrapper.vm.$store.state.Notification.message).toBe('Select An Author')
     })
 
     it("Notification Should Pop-Up Saying That Content Is Too Short",async ()=>
     {
-        expect(store.state.Notification.message).toBe('')
+        expect(wrapper.vm.$store.state.Notification.message).toBe(undefined)
         const input = wrapper.find('[class="input"]')
         await input.setValue('title')
         await wrapper.setData({FormInput:{
@@ -123,8 +77,7 @@ describe("CreateForm.vue", () => {
             content:'',
             }})
         await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
-        expect(store.state.Notification.message).toBe('Content Too Short')
-        store.state.Notification.message = ''
+        expect(wrapper.vm.$store.state.Notification.message).toBe('Content Too Short')
 
     })
 
@@ -132,7 +85,7 @@ describe("CreateForm.vue", () => {
     {
         const CreateArticleSpy = vi.spyOn(wrapper.vm,'$CreateArticle')
         expect(CreateArticleSpy).toHaveBeenCalledTimes(0)
-        expect(store.state.Notification.message).toBe('')
+        expect(wrapper.vm.$store.state.Notification.message).toBe(undefined)
         await wrapper.setData({FormInput:{
             title:'title',
             authorId:2,
@@ -140,15 +93,13 @@ describe("CreateForm.vue", () => {
             }})
         await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
         await wrapper.vm.$nextTick()
-        expect(store.state.Notification.message).toBe("Article Created Succesfully")
+        expect(wrapper.vm.$store.state.Notification.message).toBe("Article Created Succesfully")
         expect(CreateArticleSpy).toHaveBeenCalledTimes(1)
     })
 
     it("If Article Couldn't Be Created It Should Display Appropriate Message",async ()=>
     {
         wrapper = createWrapper(CreateForm,{
-            localVue,
-            store,
             mocks:{
                 $CreateArticle()
                 {
@@ -158,7 +109,7 @@ describe("CreateForm.vue", () => {
     })
         const CreateArticleSpy = vi.spyOn(wrapper.vm,'$CreateArticle')
         expect(CreateArticleSpy).toHaveBeenCalledTimes(0)
-        expect(store.state.Notification.message).toBe('')
+        expect(wrapper.vm.$store.state.Notification.message).toBe(undefined)
         await wrapper.setData({FormInput:{
             title:'title',
             authorId:2,
@@ -166,7 +117,7 @@ describe("CreateForm.vue", () => {
             }})
         await wrapper.find('[class="button Submit-Button is-primary"]').trigger('click')
         await wrapper.vm.$nextTick()
-        expect(store.state.Notification.message).toBe("Could Not Create Article")
+        expect(wrapper.vm.$store.state.Notification.message).toBe("Could Not Create Article")
         expect(CreateArticleSpy).toHaveBeenCalledTimes(1)
     })
 
@@ -175,8 +126,6 @@ describe("CreateForm.vue", () => {
     {
         
         wrapper = createWrapper(CreateForm,{
-            localVue,
-            store,
             mocks:{
                 $GetAuthors()
                 {
@@ -184,8 +133,8 @@ describe("CreateForm.vue", () => {
                 },
             }
         })
-        expect(store.state.Notification.message).toBe('')
+        expect(wrapper.vm.$store.state.Notification.message).toBe(undefined)
         await wrapper.vm.$nextTick()
-        expect(store.state.Notification.message).toBe('Could Not Get Authors')
+        expect(wrapper.vm.$store.state.Notification.message).toBe('Could Not Get Authors')
     })
 })

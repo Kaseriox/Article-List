@@ -1,61 +1,8 @@
 import { describe, it, expect ,vi} from "vitest";
-import { createLocalVue } from "@vue/test-utils";
 import createWrapper from "../.mockFactory/mockFacktory";
 import ArticleDetails from '../../src/components/Article/ArticleDetails.vue'
-import Vuex from 'vuex'
-import Buefy from 'buefy'
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.use(Buefy)
 
 
-const store = new Vuex.Store({
-    modules:{
-        Notification:{
-            namespaced:true,
-            state:{
-                message:''
-            },
-            getters:
-            {
-                message:(state)=>state.message
-            },
-            mutations:{
-                SET_MESSAGE(state,payload)
-                {
-                    state.message = payload
-                }
-            },
-            actions:{
-                set_message({commit},payload)
-                {
-                    commit('SET_MESSAGE',payload)
-                }
-            }
-        },
-        Refresh:{
-            namespaced:true,
-            state:{
-                times:0
-            },
-            getters:{
-                times:(state)=>state.times
-            },
-            mutations:{
-                INCREASE(state)
-                {
-                    state.times += 1
-                }
-            },
-            actions:{
-                increase({commit})
-                {
-                    commit('INCREASE')
-                }
-            }
-    }
-}})
 
 describe("ArticleDetails.vue", () => {
 
@@ -72,8 +19,6 @@ describe("ArticleDetails.vue", () => {
                         id:9999
                     }
                 },
-                localVue,
-                store
         })
 
     })
@@ -107,13 +52,13 @@ describe("ArticleDetails.vue", () => {
     it("Should Trigger NotificationMessage Watcher",async ()=>{
         const Rspy = vi.spyOn(wrapper.vm.$router,'push')
         expect(Rspy).toHaveBeenCalledTimes(0)
-        await store.dispatch('Notification/set_message',"Article Deleted Succesfully")
+        await wrapper.vm.$store.dispatch('Notification/set_message',"Article Deleted Succesfully")
         await wrapper.vm.$nextTick()
         expect(Rspy).toHaveBeenCalledTimes(1)
         
     })
     it("Should Trigger Times Watcher",async ()=>{
-        await store.dispatch('Refresh/increase')
+        await wrapper.vm.$store.dispatch('Refresh/increase')
         await wrapper.vm.$nextTick()
         expect(wrapper.emitted().Reset.length).toBe(1)
         expect(wrapper.emitted().Reset.length)
