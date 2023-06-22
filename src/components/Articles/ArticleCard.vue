@@ -24,17 +24,7 @@ export default {
             default: undefined
         }
     },
-    components: {
-        FormButton
-},
-    data() {
-        return {
-        };
-    },
-    methods:
-    {
-
-    },
+    components: {FormButton},
     computed:{
         date()
         {

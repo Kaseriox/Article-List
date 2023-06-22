@@ -35,10 +35,9 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-	export default {
-		name: "EditForm",
-		components: {},
-		data() {
+export default {
+	name: "EditForm",
+	data() {
         return {
 			ArticleData:undefined
         };

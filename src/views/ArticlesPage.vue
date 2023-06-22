@@ -32,14 +32,6 @@ import Search from '../components/Search/Search.vue';
 export default {
     name: "ArticlesPage",
     components: { ArticlesSection, Search, FormButton, Paging },
-    data() {
-        return {
-        };
-    },
-    methods:
-    {
-    
-    },
 };
 </script>
 

@@ -11,12 +11,6 @@ import { mapGetters,mapActions } from 'vuex';
 
 export default {
     name: "ModalWindow",
-    components: {
-    },
-    data() {
-        return {
-        };
-    },
     methods:{
         ...mapActions({
             Close:'Modal/close',

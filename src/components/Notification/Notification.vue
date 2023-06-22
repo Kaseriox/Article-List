@@ -19,11 +19,6 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: "Notification",
-    components: {
-    },
-    data() {
-        return{}
-    },
     methods:{
         ...mapActions({
             set_message:'Notification/set_message'

@@ -19,11 +19,6 @@ export default {
       type:Number
     }
   },
-  data() {
-        return {
-        
-        };
-    },
   methods:{
     ...mapActions({
       set_component:'Modal/set_component',

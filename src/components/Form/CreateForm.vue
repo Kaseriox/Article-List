@@ -1,7 +1,7 @@
 <template>
 		<div  class="modal-card" style="width:auto">
 			<header class="modal-card-head">
-				<p class="modal-card-title>">Create Form</p>
+				<p class="modal-card-title">Create Form</p>
 				
 			</header>
 			<section class="modal-card-body">
@@ -46,16 +46,16 @@ import { mapActions } from 'vuex';
 export default {
 		name: "CreateForm",
 		components: {} ,
-		data() {
-        return {
-			FormInput:{
-				title:'',
-				authorId:undefined,
-				content:'',
-			},
-			Authors:undefined
-        };
-    },
+	data() {
+			return {
+				FormInput:{
+					title:'',
+					authorId:undefined,
+					content:'',
+				},
+				Authors:undefined
+			};
+    	},
 	methods:{
 		...mapActions({
 			set_message:'Notification/set_message',

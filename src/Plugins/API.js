@@ -6,7 +6,7 @@ const Article = 'Articles'
 
 
 let MyPlugin = {
-    install(Vue,options) {
+    install(Vue) {
        Vue.prototype.$GetArticles = async function(Addon)
        {
             try

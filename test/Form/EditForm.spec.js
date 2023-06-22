@@ -103,11 +103,4 @@ describe("EditForm.vue", () => {
     })
 
 
-    /*it("It Shouldn't Render Edit Section Of The Form If ArticleData Is Undefined", async ()=>{
-        let EditArticleSection =await  wrapper.find('[class="Edit modal-card-body"]')
-        expect(EditArticleSection.isEmpty()).toBe(false)
-        wrapper.vm.$data.ArticleData = undefined
-        await wrapper.vm.$nextTick()
-        expect(EditArticleSection.isEmpty()).toBe(true)
-    })*/
 })

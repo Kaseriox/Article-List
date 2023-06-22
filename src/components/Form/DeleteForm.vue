@@ -30,12 +30,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 
 	export default {
-		name: "DeleteForm",
-		components: { },
-		data() {
-        return {
-        };
-    },
+	name: "DeleteForm",
 	methods:{
         ...mapActions({
             Close:"Modal/close",

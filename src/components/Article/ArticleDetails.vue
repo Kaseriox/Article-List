@@ -40,13 +40,7 @@ export default {
             required:true
         }
     },
-    components: {
-    FormButton
-},
-    data() {
-        return {
-        };
-    },
+    components: {FormButton},
     methods:{
         GoBack()
         {

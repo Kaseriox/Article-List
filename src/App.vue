@@ -16,7 +16,7 @@ export default {
   components: {
     Notification,
     ModalWindow
-},
+  },
   watch:{
     '$store.state.Modal.Open':function()
     {

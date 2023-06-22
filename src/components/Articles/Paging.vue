@@ -10,12 +10,6 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: "Paging",
-    components: {
-    },
-    data() {
-        return {
-        };
-    },
     methods:{
         ...mapActions({
             previous_page:'Paging/previous_page',

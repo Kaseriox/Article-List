@@ -13,12 +13,6 @@ import { mapActions } from 'vuex';
 
 export default {
     name: "Search",
-    components: {
-    },
-    data() {
-        return {
-        };
-    },
     methods:{
         ...mapActions({
             search:'Search/search'

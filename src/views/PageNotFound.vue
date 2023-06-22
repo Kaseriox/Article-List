@@ -9,14 +9,6 @@ import { mapActions } from 'vuex';
 
   export default {
     name: "PageNotFoundView",
-    components:{
-        
-    },
-    data() {
-      return {
-        
-      };
-    },
     methods:{
       ...mapActions({
         set_message:"Notification/set_message",
