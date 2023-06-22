@@ -6,7 +6,7 @@
             :closable="false"
             aria-close-label="Close notification"
             @click="set_message(undefined)">
-            <p>{{ message }}</p>
+            <p class="Message">{{ message }}</p>
             <i >Click To Close</i>
         </b-notification>
     </div>
