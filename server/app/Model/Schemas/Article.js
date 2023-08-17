@@ -4,11 +4,17 @@ const sequalize = require('../database')
 const ArticleObject = {
     title:{
         type:DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        validate: {
+            notEmpty:true
+        }
     },
     body:{
         type:DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        validate: {
+            notEmpty:true
+        }
     },
 
 }

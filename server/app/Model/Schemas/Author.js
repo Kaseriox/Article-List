@@ -1,15 +1,23 @@
 const {DataTypes} = require('sequelize')
 const sequalize = require('../database')
-const Article = require('./Article')
 
 const AuthorObject = {
     name:{
         type: DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        validate: {
+            notEmpty:true,
+            isAlpha:true,
+        }
+
     },
     surname:{
         type:DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        validate: {
+            notEmpty:true,
+            isAlpha:true,
+        }
     }
 }
 const AuthorTableOptions = {
@@ -17,12 +25,4 @@ const AuthorTableOptions = {
 }
 
 const Author = sequalize.define('Author',AuthorObject,AuthorTableOptions)
-Author.hasMany(Article, {
-    foreignKey:{
-        allowNull:false,    
-        name:'AuthorID',
-    
-    },
-    onDelete: 'CASCADE' 
-  });
 module.exports = Author

@@ -1,9 +1,9 @@
 const express = require('express')
-const sequalize = require('./Model/database')
+const sequalize = require('./app/Model/database')
 const ArticleRoutes = require('./Routes/ArticleRoutes')
 const AuthorRoutes = require('./Routes/AuthorRoutes')
 const app = express()
-const port = 3000
+const port = 3025
 
 app.use(express.json())
 app.use('/article',ArticleRoutes)
