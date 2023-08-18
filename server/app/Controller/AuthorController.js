@@ -13,7 +13,7 @@ async function CreateAuthor(req, res) {
     const response = await Author.create(req.body);
     res.send(response);
   } catch (err) {
-    res.send({ error: err.message });
+    res.status(400).send({ error: err.message });
   }
 }
 
@@ -28,7 +28,7 @@ async function GetAuthors(req, res) {
       rows: response.rows,
     });
   } catch (err) {
-    res.send({ error: err.message });
+    res.status(400).send({ error: err.message });
   }
 }
 async function GetAuthor(req, res) {
@@ -38,12 +38,11 @@ async function GetAuthor(req, res) {
     });
     res.send(response ?? {"message":"Author Does Not Exists"})
   } catch (err) {
-    res.send({ error: err.message });
+    res.status(400).send({ error: err.message });
   }
 }
 async function UpdateAuthor(req, res) {
   try {
-    console.log(req.params.id);
     const response = await Author.update(req.body, {
       where: {
         id: req.params.id,

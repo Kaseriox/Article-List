@@ -14,11 +14,11 @@ async function CreateArticle(req, res) {
     const response = await Article.create(req.body);
     res.send(response);
   } catch (err) {
-    res.send({ "error": err.message });
+    res.status(400).send({ "error": err.message });
   }
 }
 async function UpdateArticle(req, res) {
-  //delete req.body.AuthorID;
+  delete req.body.AuthorID;
   try {
     const response = await Article.update(req.body, {
       where: {
@@ -30,10 +30,10 @@ async function UpdateArticle(req, res) {
       return;
     }
     if (response[0] === 0) {
-      res.send({ "message": "Article By Id Doesn't exist" });
+      res.status(400).send({ "message": "Article By Id Doesn't exist" });
     }
   } catch (err) {
-    res.send({ "error": err.message });
+    res.status(400).send({ "error": err.message });
   }
 }
 
@@ -48,7 +48,7 @@ async function GetArticles(req, res) {
       rows: response.rows,
     });
   } catch (err) {
-    res.send({ "error": err.message });
+    res.status(400).send({ "error": err.message });
   }
 }
 
@@ -59,7 +59,7 @@ async function GetArticle(req, res) {
     });
     res.send(response ?? {"message":"Article Does Not Exists"})
   } catch (err) {
-    res.send({ "error": err.message });
+    res.status(400).send({ "error": err.message });
   }
 }
 
@@ -75,11 +75,11 @@ async function DeleteArticle(req, res) {
       return;
     }
     if (response === 0) {
-      res.send({ "message": "Article Does Not Exists" });
+      res.status(400).send({ "message": "Article Does Not Exists" });
       return;
     }
   } catch (err) {
-    res.send({ "error": err.message });
+    res.status(400).send({ "error": err.message });
   }
 }
 

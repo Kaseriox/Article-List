@@ -4,6 +4,7 @@ import Search from "./modules/Search"
 import Form from "./modules/Form"
 import Notification from "./modules/Notification"
 import Refresh from "./modules/Refresh"
+import Socket from "./modules/Socket"
 export default {
     modules: {
         Modal,
@@ -11,6 +12,7 @@ export default {
         Paging,
         Search,
         Notification,
-        Refresh
+        Refresh,
+        Socket
     },
 }

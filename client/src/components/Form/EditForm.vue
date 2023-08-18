@@ -14,7 +14,7 @@
 				</b-field>
 
 				<b-field label="Content">
-           			 <b-input type="textarea" v-model="ArticleData.content"></b-input>
+           			 <b-input type="textarea" v-model="ArticleData.body"></b-input>
        			</b-field>
 			</section>
 
@@ -68,6 +68,7 @@ export default {
 				if(response!==null)
 				{
 					this.set_message("Succesfully Edited Article")
+					this.socket.emit('Article Edited')
 					this.Close()
 				}
 				else
@@ -83,7 +84,7 @@ export default {
         		this.set_message("Title Too Short")
         		return false;
       		}
-      		if (this.ArticleData.content.length < 2)
+      		if (this.ArticleData.body.length < 2)
 			{
         		this.set_message("Content Too Short")
         		return false;
@@ -94,6 +95,7 @@ export default {
 	computed:{
 		...mapGetters({
 			id:'Form/id',
+			socket:'Socket/socket'
 		})
 	},
 	created()

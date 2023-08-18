@@ -1,0 +1,502 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Article Author API"
+    },
+    "tags":[
+        {
+            "name":"Article",
+            "description":"Operations related to articles"
+        },
+        {
+            "name":"Author",
+            "description":"Operations related to authors"
+        }
+    ],
+    "paths": {
+      "/article": {
+        "get": {
+        "tags":["Article"],
+          "summary": "Get a list of articles",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "Number of items per page",
+              "required": false,
+              "type": "integer"
+            },
+            {
+                "name":"expand",
+                "in":"query",
+                "required":false,
+                "description":"Expands the Child or Parent Table "
+            },
+            {
+                "name":"filter",
+                "in":"query",
+                "required":false,
+                "description":"Filter articles by attribute and value (e.g., title=Lorem)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Page": {
+                    "type": "integer"
+                  },
+                  "TotalCount": {
+                    "type": "integer"
+                  },
+                  "CurrentCount": {
+                    "type": "integer"
+                  },
+                  "rows": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Article"
+                    }
+                  }
+                }
+              }
+            },
+            "400":{
+                "description": "Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new article",
+          "tags":["Article"],
+          "parameters": [
+            {
+              "name": "article",
+              "in": "body",
+              "description": "Article object to create",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ArticleInput"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Article created successfully",
+              "schema": {
+                "$ref": "#/definitions/Article"
+              }
+            },
+            "400":{
+                "description":"Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+            }
+          }
+        }
+      },
+      "/article/{id}": {
+        "get": {   
+          "summary": "Delete an article by ID",
+          "tags":["Article"],
+          "parameters": [
+            {
+                "name":"expand",
+                "in":"query",
+                "required":false,
+                "description":"Expands the Child or Parent Table "
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "$ref": "#/definitions/Article"
+              }
+            },
+            "400":{
+                "description":"Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+              },
+            "404": {
+              "description": "Article not found",
+              "schema":{
+                "$ref":"#/definitions/404Response"
+              }
+            }
+          }
+        },
+        "put": {   
+          "summary": "Update an article by ID",
+          "tags":["Article"],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "$ref": "#/definitions/Article"
+              }
+            },
+            "400":{
+                "description":"Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+              },
+            "404": {
+              "description": "Article not found",
+              "schema":{
+                "$ref":"#/definitions/404Response"
+              }
+            }
+          }
+        },
+        "delete": {   
+            "summary": "Get an article by ID",
+            "tags":["Article"],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the article to retrieve",
+                "required": true,
+                "type": "integer"
+              },
+              {
+                  "name":"expand",
+                  "in":"query",
+                  "required":false,
+                  "description":"Expands the Child or Parent Table "
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful response",
+                "schema": {
+                  "$ref": "#/definitions/RecordDeleted"
+                }
+              },
+              "400":{
+                "description":"Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+              },
+              "404": {
+                "description": "Article not found",
+                "schema":{
+                  "$ref":"#/definitions/404Response"
+                }
+              }
+            }
+          }
+      },
+
+
+      "/author": {
+        "get": {
+        "tags":["Author"],
+          "summary": "Get a list of authors",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "Number of items per page",
+              "required": false,
+              "type": "integer"
+            },
+            {
+                "name":"expand",
+                "in":"query",
+                "required":false,
+                "description":"Expands the Child or Parent Table "
+            },
+            {
+                "name":"filter",
+                "in":"query",
+                "required":false,
+                "description":"Filter authors by attribute and value (e.g., name=John)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Page": {
+                    "type": "integer"
+                  },
+                  "TotalCount": {
+                    "type": "integer"
+                  },
+                  "CurrentCount": {
+                    "type": "integer"
+                  },
+                  "rows": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Author"
+                    }
+                  }
+                }
+              }
+            },
+            "400":{
+                "description": "Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new author",
+          "tags":["Author"],
+          "parameters": [
+            {
+              "name": "author",
+              "in": "body",
+              "description": "Author object to create",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/AuthorInput"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Author created successfully",
+              "schema": {
+                "$ref": "#/definitions/Author"
+              }
+            },
+            "400":{
+                "description":"Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+            }
+          }
+        }
+      },
+      "/author/{id}": {
+        "get": {   
+          "summary": "Delete an author by ID",
+          "tags":["Author"],
+          "parameters": [
+            {
+                "name":"expand",
+                "in":"query",
+                "required":false,
+                "description":"Expands the Child or Parent Table "
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "$ref": "#/definitions/Author"
+              }
+            },
+            "400":{
+                "description":"Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+              },
+            "404": {
+              "description": "Author not found",
+              "schema":{
+                "$ref":"#/definitions/404Response"
+              }
+            }
+          }
+        },
+        "put": {   
+          "summary": "Update an author by ID",
+          "tags":["Author"],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "$ref": "#/definitions/Author"
+              }
+            },
+            "400":{
+                "description":"Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+              },
+            "404": {
+              "description": "Author not found",
+              "schema":{
+                "$ref":"#/definitions/404Response"
+              }
+            }
+          }
+        },
+        "delete": {   
+            "summary": "Get an author by ID",
+            "tags":["Author"],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the author to retrieve",
+                "required": true,
+                "type": "integer"
+              },
+              {
+                  "name":"expand",
+                  "in":"query",
+                  "required":false,
+                  "description":"Expands the Child or Parent Table "
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful response",
+                "schema": {
+                  "$ref": "#/definitions/RecordDeleted"
+                }
+              },
+              "400":{
+                "description":"Bad Request",
+                "schema":{
+                    "$ref":"#/definitions/BadRequest"
+                }
+              },
+              "404": {
+                "description": "Author not found",
+                "schema":{
+                  "$ref":"#/definitions/404Response"
+                }
+              }
+            }
+          }
+      }
+    },
+    "definitions": {
+      "Article": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "authorID":{
+            "type":"integer"
+          }
+        }
+      },
+      "Author": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BadRequest":{
+        "type":"object",
+        "properties":{
+            "error":{
+                "type":"string"
+            }
+        }
+      },
+      "404Response":{
+        "type":"object",
+        "properties":{
+            "message":{
+                "type":"string"
+            }
+        }
+      },
+      "RecordDeleted":{
+        "type":"object",
+        "properties":{
+            "message":{
+                "type":"string"
+            }
+        }
+      },
+      "ArticleInput": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "authorID":{
+            "type":"integer"
+          }
+        },
+        "required": ["title", "body"]
+      },
+      "AuthorInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "surname"]
+      }
+    }
+  }

@@ -9,13 +9,18 @@
 <script>
 import Notification from './components/Notification/Notification.vue';
 import ModalWindow from './components/Modal/ModalWindow.vue';
-
+import { mapActions } from 'vuex';
 
 
 export default {
   components: {
     Notification,
     ModalWindow
+  },
+  methods:{
+    ...mapActions({
+      connect_socket:'Socket/connect_socket'
+    })
   },
   watch:{
     '$store.state.Modal.Open':function()
@@ -27,6 +32,10 @@ export default {
 
       document.documentElement.style.overflow = 'auto'
     }
+  },
+  async created()
+  {
+    await this.connect_socket()
   }
 };
 </script>

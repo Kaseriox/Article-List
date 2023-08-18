@@ -1,7 +1,7 @@
 import axios from 'axios'
-const API_URL = 'http://localhost:3000'
-const Author = 'Authors'
-const Article = 'Articles'
+const API_URL = 'http://localhost:3025'
+const Author = 'Author'
+const Article = 'Article'
 
 
 
@@ -35,7 +35,7 @@ let MyPlugin = {
        {
             try
             {
-                const response = await axios.patch(`${API_URL}/${Article}/${ID}`,
+                const response = await axios.put(`${API_URL}/${Article}/${ID}`,
                 ArticleObject)
                 return response
             }

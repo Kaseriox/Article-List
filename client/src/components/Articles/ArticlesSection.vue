@@ -25,17 +25,16 @@ export default {
       }),
 
     async GetArticleData() {     
-      const response = await this.$GetArticles(`?_expand=author&_limit=${ARTICLES_PER_PAGE}&_page=${this.CurrentPage}${this.Search === '' ? "" : `&q=${this.Search} `}`)
+      const response = (await this.$GetArticles(`?expand=Author&limit=${ARTICLES_PER_PAGE}&page=${this.CurrentPage}`)).data
       if (response !== null) 
       {
-        
-        if(response.length === 0 && this.Search === '')
+        if(response.length === 0)
         {
           this.set_message('No New Articles')
           return
         }
-        this.Articles = response.data;
-        this.set_article_count(response.headers["x-total-count"])
+        this.Articles = response.rows;
+        this.set_article_count(response.TotalCount)
       } 
       else
       {
@@ -47,8 +46,8 @@ export default {
         const ArticleP = {
             id:Prop.id,
             title:Prop.title,
-            author:Prop.author.name,
-            date: Prop.created_at > Prop.updated_at ? Prop.created_at : Prop.updated_at 
+            author:Prop.Author.name + " " + Prop.Author.surname,
+            date: Prop.createdAt > Prop.updatedAt  ? Prop.createdAt : Prop.updatedAt 
         }
         return ArticleP
     },
@@ -60,7 +59,8 @@ export default {
       ArticleCount:'Paging/ArticleCount',
       TotalPages:'Paging/TotalPages',
       NotificationMessage:'Notification/message',
-      Times:'Refresh/times'
+      Times:'Refresh/times',
+      socket:'Socket/socket'
     })
   },
   created() {
@@ -88,7 +88,12 @@ export default {
       {
           this.GetArticleData()
       }
-
+    },
+    socket()
+    {
+      this.socket.on('Refresh Articles',()=>{
+        this.GetArticleData()
+      })
     }
   }
 };

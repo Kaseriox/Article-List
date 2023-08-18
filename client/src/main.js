@@ -11,8 +11,8 @@ import Store from './store/store';
 Vue.use(API)
 Vue.use(Vuex)
 Vue.use(Buefy)
-
 Vue.use(VueRouter)
+
 const router = new VueRouter({
     routes:Routes,
     mode:'history'

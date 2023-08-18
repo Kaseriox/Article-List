@@ -23,12 +23,12 @@ export default {
     }),
     async GetArticle() 
     {
-      let response = await this.$GetArticles(`/${this.id}?_expand=author`);
+      let response = (await this.$GetArticles(`/${this.id}?expand=Author`)).data;
       if (response !== null) 
       {
-        this.Article = response.data;
-        this.Article.created_at = new Date(this.Article.created_at).toLocaleString();
-        this.Article.updated_at = new Date(this.Article.updated_at).toLocaleString();
+        this.Article = response;
+        this.Article.createdAt = new Date(this.Article.createdAt).toLocaleString();
+        this.Article.updatedAt = new Date(this.Article.updatedAt).toLocaleString();
       } 
       else 
       {
@@ -44,9 +44,9 @@ export default {
         return{
             id:this.Article.id,
             title:this.Article.title,
-            author:this.Article.author.name,
-            content:this.Article.content,
-            date:this.Article.created_at > this.Article.updated_at ? this.Article.created_at : this.Article.updated_at
+            author:this.Article.Author.name + " " + this.Article.Author.surname,
+            content:this.Article.body,
+            date:this.Article.createdAt > this.Article.updatedAt ? this.Article.createdAt : this.Article.updatedAt
         }
     },
   },

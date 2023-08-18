@@ -38,7 +38,6 @@ function ParseQuery(param)
             where:{[Op.and]:arr}
         }
     }
-    console.log(Options)
     return Options
 }
 

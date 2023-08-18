@@ -13,15 +13,15 @@
 					/>
 				</b-field>
 				<b-field>
-					<b-select placeholder="Author" icon="account" v-model="FormInput.authorId">
+					<b-select placeholder="Author" icon="account" v-model="FormInput.authorID">
   						<option v-for="Author in Authors" :value="Author.id">
-							{{ Author.name }}
+							{{ Author.name }} {{ Author.surname }}
   						</option>
 					</b-select>
 				</b-field>
 
 				<b-field label="Content">
-           			 <b-input type="textarea" v-model="FormInput.content"></b-input>
+           			 <b-input type="textarea" v-model="FormInput.body"></b-input>
        			</b-field>
 			</section>
 
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
 		name: "CreateForm",
@@ -50,12 +50,17 @@ export default {
 			return {
 				FormInput:{
 					title:'',
-					authorId:undefined,
-					content:'',
+					authorID:undefined,
+					body:'',
 				},
 				Authors:undefined
 			};
     	},
+		computed:{
+			...mapGetters({
+				socket:'Socket/socket'
+			})
+		},
 	methods:{
 		...mapActions({
 			set_message:'Notification/set_message',
@@ -63,10 +68,10 @@ export default {
 		}),
 		async GetAuthors()
 		{
-			const response = await this.$GetAuthors()
+			const response = (await this.$GetAuthors()).data
 			if(response!==null)
 			{
-				this.Authors = response.data
+				this.Authors = response.rows
 			}
 			else
 			{
@@ -78,14 +83,16 @@ export default {
 			if(this.ValidateForm() === true)
 			{
 				const response = await this.$CreateArticle(this.FormInput)
+				console.log(response)
 				if(response !== null)
 				{
 					this.set_message("Article Created Succesfully")
 					this.FormInput={
 						title:'',
-						authorId:undefined,
-						content:''
+						authorID:undefined,
+						body:''
 					}
+					this.socket.emit('Created Article')
 					this.Close()
 				}
 				else
@@ -101,12 +108,12 @@ export default {
         		this.set_message("Title Too Short")
         		return false;
       		}
-      		if (this.FormInput.authorId === undefined)
+      		if (this.FormInput.authorID === undefined)
 			{
         		this.set_message("Select An Author")
         		return false;
       		}
-      		if (this.FormInput.content.length < 2)
+      		if (this.FormInput.body.length < 2)
 			{
         		this.set_message("Content Too Short")
         		return false;
