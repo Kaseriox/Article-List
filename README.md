@@ -5,8 +5,9 @@
 To install necessary packages, run this command:
 ```npm install ```
 
-Start Backend
-```npm run server```
+To start your json-server:
+``` cd json-server```
+``` node Routing.js```
 
 To run app:
 ``` npm run dev```

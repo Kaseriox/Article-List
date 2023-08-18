@@ -114,6 +114,13 @@
           "tags":["Article"],
           "parameters": [
             {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the article to retrieve",
+                "required": true,
+                "type": "integer"
+            },
+            {
                 "name":"expand",
                 "in":"query",
                 "required":false,
@@ -144,6 +151,15 @@
         "put": {   
           "summary": "Update an article by ID",
           "tags":["Article"],
+          "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the article to update",
+                "required": true,
+                "type": "integer"
+            }
+          ],
           "responses": {
             "200": {
               "description": "Successful response",
@@ -172,15 +188,9 @@
               {
                 "name": "id",
                 "in": "path",
-                "description": "ID of the article to retrieve",
+                "description": "ID of the article to delete",
                 "required": true,
                 "type": "integer"
-              },
-              {
-                  "name":"expand",
-                  "in":"query",
-                  "required":false,
-                  "description":"Expands the Child or Parent Table "
               }
             ],
             "responses": {
@@ -307,6 +317,13 @@
           "tags":["Author"],
           "parameters": [
             {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the author to retrieve",
+                "required": true,
+                "type": "integer"
+            },
+            {
                 "name":"expand",
                 "in":"query",
                 "required":false,
@@ -337,6 +354,15 @@
         "put": {   
           "summary": "Update an author by ID",
           "tags":["Author"],
+          "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the author to update",
+                "required": true,
+                "type": "integer"
+            }
+          ],
           "responses": {
             "200": {
               "description": "Successful response",
@@ -362,20 +388,14 @@
             "summary": "Get an author by ID",
             "tags":["Author"],
             "parameters": [
-              {
-                "name": "id",
-                "in": "path",
-                "description": "ID of the author to retrieve",
-                "required": true,
-                "type": "integer"
-              },
-              {
-                  "name":"expand",
-                  "in":"query",
-                  "required":false,
-                  "description":"Expands the Child or Parent Table "
-              }
-            ],
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of the author to delete",
+                    "required": true,
+                    "type": "integer"
+                }
+              ],
             "responses": {
               "200": {
                 "description": "Successful response",
