@@ -8,5 +8,8 @@ To install necessary packages, run this command:
 Start Backend
 ```npm run server```
 
+Backend API info
+```http://localhost:3025/api```
+
 To run app:
 ``` npm run dev```
