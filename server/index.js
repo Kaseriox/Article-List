@@ -6,7 +6,6 @@ const sockets = require('./sockets/socket')
 const http = require('http')
 const cors = require('cors')
 const {Server} = require('socket.io')
-const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger/swagger.json')
 const app = express()
@@ -16,34 +15,9 @@ app.use(express.json())
 app.use('/article',ArticleRoutes)
 app.use('/author',AuthorRoutes)
 
-const swaggerOptions = {
-  failOnErrors:true,
-  swaggerDefinition: {
-    info:{
-      title:'Article Author API',
-    },
-    servers:["http://localhost:3025"]
-  },
-  apis:["./index.js","./Routes/*.js"]
-}
-
-// Routes
-/**
- * @swagger
- * /Article : 
- *  get: 
- *      description: Use to request all Articles
- *      response:
- *        '200':
- *           description: A succesful response
- */
-
-
-
 
 async function Init()
 {
-  const swaggerDocs = swaggerJsDoc(swaggerOptions)
   const response = await sequalize.sync()
   if(response)
   {
