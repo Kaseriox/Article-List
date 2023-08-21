@@ -64,11 +64,11 @@ export default {
 		{
 			if(this.ValidateForm() ===true)
 			{
-				const response = await this.$UpdateArticle(this.id,{title:this.ArticleData.title,content:this.ArticleData.content})
+				const response = await this.$UpdateArticle(this.id,{title:this.ArticleData.title,body:this.ArticleData.body})
 				if(response!==null)
 				{
 					this.set_message("Succesfully Edited Article")
-					this.socket.emit('Article Edited')
+					this.socket.emit('Article Edited',{id:this.id})
 					this.Close()
 				}
 				else

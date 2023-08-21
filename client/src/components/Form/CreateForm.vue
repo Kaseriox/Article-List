@@ -83,7 +83,6 @@ export default {
 			if(this.ValidateForm() === true)
 			{
 				const response = await this.$CreateArticle(this.FormInput)
-				console.log(response)
 				if(response !== null)
 				{
 					this.set_message("Article Created Succesfully")

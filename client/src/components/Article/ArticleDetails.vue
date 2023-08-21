@@ -50,7 +50,7 @@ export default {
     computed:{
         ...mapGetters({
             NotificationMessage:'Notification/message',
-            Times:'Refresh/times'
+            Times:'Refresh/times',
         })
     },
     watch:
@@ -67,7 +67,7 @@ export default {
         Times()
         {
             this.$emit('Reset')
-        }
+        },
     }
 };
 </script>

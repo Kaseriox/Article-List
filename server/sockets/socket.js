@@ -4,12 +4,15 @@ function sockets(io)
         console.log(`User ${socket.id} connected`)
         socket.on('Created Article',()=>{
             RefreshArticles(socket)
+            socket.broadcast.emit('Created Article')
         })
-        socket.on('Article Deleted',()=>{
+        socket.on('Article Deleted',(data)=>{
             RefreshArticles(socket)
+            socket.broadcast.emit('Article Deleted',data)
         })
-        socket.on('Article Edited',()=>{
+        socket.on('Article Edited',(data)=>{
             RefreshArticles(socket)
+            socket.broadcast.emit('Article Edited',data)
         })
     })
 }

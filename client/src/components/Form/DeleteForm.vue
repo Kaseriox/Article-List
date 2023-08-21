@@ -53,7 +53,7 @@ import { mapActions, mapGetters } from 'vuex';
             if(response !== null)
             {
                 this.set_message("Article Deleted Succesfully")
-                this.socket.emit('Article Deleted')
+                this.socket.emit('Article Deleted',{id:this.id})
                 this.Close()
             }
             else

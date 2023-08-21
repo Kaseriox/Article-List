@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import ArticleDetails from '../components/Article/ArticleDetails.vue';
 
 export default {
@@ -16,6 +16,11 @@ export default {
       id: this.$route.params.id ,
       Article: undefined,
     };
+  },
+  computed:{
+    ...mapGetters({
+      socket:'Socket/socket'
+    })
   },
   methods: {
     ...mapActions({
@@ -49,6 +54,23 @@ export default {
             date:this.Article.createdAt > this.Article.updatedAt ? this.Article.createdAt : this.Article.updatedAt
         }
     },
+  },
+  watch:{
+    socket()
+        {
+            this.socket.on('Article Edited',(data)=>{
+              if(data?.id === parseInt(this.id))
+              {
+                this.GetArticle()
+              }
+            })
+            this.socket.on('Article Deleted',(data)=>{
+              if(data?.id === parseInt(this.id))
+              {
+                this.$router.push('/')
+              }
+            })
+        }
   },
   created() {
     this.GetArticle()
